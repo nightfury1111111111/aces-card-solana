@@ -1,0 +1,9 @@
+.Home {
+    background: url("../images/background_home.png") center center fixed;
+    background-size: cover;
+}
+
+.test {
+    min-height: 1000px;
+    min-width: 1500px;
+}

@@ -1,0 +1,8 @@
+.Header {
+    display: grid;
+    justify-content: space-between;
+}
+
+.Header * {
+    font-family: "Montserrat", sans-serif;
+}
