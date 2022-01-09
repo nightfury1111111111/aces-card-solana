@@ -21,7 +21,6 @@ import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
 import Home from './pages/Home';
 
 const App = (props) => {
-  console.log("Rendering app")
 
   return (
     <div>

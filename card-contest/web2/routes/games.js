@@ -2,7 +2,7 @@
 Games doc ref:
 {
     gameId: {today's date as string} + {game type}
-    gameType: "5 Card Poker",
+    gameType: "5card",
     entries: [
         {
             user: {wallet pubkey},
@@ -73,7 +73,7 @@ gamesRoutes.route("/games/play/:gameId").post( (req, res) => {
     let dbConnect = dbo.getDb();
 
     let query = { gameId: req.params.gameId };
-    let { hand, type, score } = getBestHandByWallet(req.body.user);
+    let { hand, type, score } = getBestHandByWallet(req.body.user, req.body.gameType);
     let newEntry = {
         user: req.body.user,
         hand: hand,
@@ -82,7 +82,7 @@ gamesRoutes.route("/games/play/:gameId").post( (req, res) => {
     };
 
     let newData =  {
-        $set: {"gameId": req.params.gameId, "gameType": req.body.gameType },
+        $set: { "gameId": req.params.gameId, "gameType": req.body.gameType },
         $push: { "entries": newEntry }
     }
 
