@@ -74,6 +74,7 @@ async function getBestHandByWallet(pubkey, gameType) {
     switch (gameType) {
         case "5card":
             // TODO: calculate best hand
+            console.log(acesTokens);
             return { hand: ["A",2,3,4,5], type: "straight", score: 4 };
     }
 }
