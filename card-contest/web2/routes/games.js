@@ -19,6 +19,7 @@ const gamesRoutes = express.Router();
 
 // This will help us connect to the database
 const dbo = require("../db/conn");
+const { wildCards } = require('../utils/wildCards');
 const { getBestHandByWallet } = require("../controller/games_controller");
 
 // This help convert the id from string to ObjectId for the _id.
@@ -73,26 +74,42 @@ gamesRoutes.route("/games/play/:gameId").post( (req, res) => {
     let dbConnect = dbo.getDb();
 
     let query = { gameId: req.params.gameId };
-    let { hand, type, score } = getBestHandByWallet(req.body.user, req.body.gameType);
-    let newEntry = {
-        user: req.body.user,
-        hand: hand,
-        handType: type,
-        score: score
-    };
 
-    let newData =  {
-        $set: { "gameId": req.params.gameId, "gameType": req.body.gameType },
-        $push: { "entries": newEntry }
+    let upsert = (gameEntry, query, originalReq, originalRes) => {
+        let wildCardList = gameEntry?.wildCards ? gameEntry.wildCards : wildCards(Math.floor(Math.random() * 5 + 2));
+
+        let { hand, type, score } = getBestHandByWallet(originalReq.body.user, originalReq.body.gameType, wildCardList);
+        let newEntry = {
+            user: originalReq.body.user,
+            hand: hand,
+            handType: type,
+            score: score
+        };
+    
+        let newData =  {
+            $setOnInsert: { 
+                "gameId": originalReq.params.gameId, 
+                "gameType": originalReq.body.gameType, 
+                "wildCards": wildCardList
+            },
+            $push: { "entries": newEntry }
+        }
+    
+        dbConnect
+            .collection("games")
+            .updateOne(query, newData, { upsert: true } , (err, result) => {
+                if (err) throw err;
+                originalRes.json(result);
+        });
     }
 
     dbConnect
         .collection("games")
-        .updateOne(query, newData, { upsert: true } , (err, result) => {
+        .findOne(query, (err, result) => {
             if (err) throw err;
-            res.json(result);
-    });
-
+            upsert(result, query, req, res);
+        });
+    
 });
 
 module.exports = gamesRoutes;
