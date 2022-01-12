@@ -1,9 +1,74 @@
 .Home {
     background: url("../images/background_home.png") top left fixed;
     background-size: cover;
+    font-size: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
 }
 
-.test {
-    min-height: 1000px;
-    min-width: 1500px;
+.Home * {
+    font-family: "Montserrat", sans-serif;
+}
+
+.Content {
+    margin-top: 13%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2em;
+    height: 75vh;
+}
+
+.Or {
+    width: 25%;
+    display: flex;
+    justify-content: space-around;
+    margin: 1em 0;
+}
+
+.Or hr {
+    margin: 0.3em 0 0;
+    border: none;
+    background-color: #73A1C2;
+    height: 1px;
+    width: 43%;
+}
+
+.Or hr:last-of-type {
+    margin-inline-end: 0.15em;
+}
+
+.Or p {
+    font-size: 0.6em;
+    color: #C6D8E5;
+    font-weight: 500;
+    margin: 0 0.2em;
+}
+
+.Content a {
+    font-size: 0.67em;
+    font-weight: 700;
+    color: #C6D8E5;
+    text-decoration: none;
+    margin-bottom: 1em;
+}
+
+.Content p:last-of-type {
+    max-width: 25%;
+    text-align: center;
+    font-size: 0.6em;
+    font-weight: 500;
+    color: #C6D8E5;
+}
+
+.wallet-adapter-button {
+    width: 25%;
+    height: 60px;
+    background-color: #294573;
+    border: none;
+    color: #E8EFF7;
+    font-size: 0.67em;
+    font-weight: 600;
 }

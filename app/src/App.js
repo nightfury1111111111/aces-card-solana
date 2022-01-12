@@ -14,18 +14,20 @@ import {
   getTorusWallet,
 } from '@solana/wallet-adapter-wallets';
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
-import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
-import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
+import { ConnectionProvider, WalletProvider, useWallet } from '@solana/wallet-adapter-react';
 
 // Pages
 import Home from './pages/Home';
+import Game from './pages/Game';
 
-const App = (props) => {
+const App = () => {
+  const wallet = useWallet();
 
   return (
     <div>
       <Routes>
-        <Route path="/" element={<Home/>}/>
+        <Route path="/" element={<Home wallet={wallet}/>}/>
+        <Route path="/play" element={<Game wallet={wallet}/>}/>
       </Routes>
     </div>
   );
@@ -33,7 +35,7 @@ const App = (props) => {
 
 const AppWithProvider = () => {
   const network = WalletAdapterNetwork.Mainnet;
-  const endpoint = clusterApiUrl(network)
+  const endpoint = clusterApiUrl(network);
 
   const walletOptions = useMemo(() => [
     getPhantomWallet(),
@@ -50,11 +52,9 @@ const AppWithProvider = () => {
   return (
     <ConnectionProvider endpoint={endpoint}>
       <WalletProvider wallets={walletOptions}>
-        <WalletModalProvider>
-            <BrowserRouter>
-              <App/>
-            </BrowserRouter>
-        </WalletModalProvider>
+          <BrowserRouter>
+            <App/>
+          </BrowserRouter>
       </WalletProvider>
     </ConnectionProvider>
   )
