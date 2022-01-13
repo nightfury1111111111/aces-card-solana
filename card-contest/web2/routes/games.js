@@ -22,9 +22,6 @@ const dbo = require("../db/conn");
 const { wildCards } = require('../utils/wildCards');
 const { getBestHandByWallet } = require("../controller/games_controller");
 
-// This help convert the id from string to ObjectId for the _id.
-const ObjectId = require("mongodb").ObjectId;
-
 // Get all games (max. 10)
 gamesRoutes.route("/games").get( (_req, res) => {
     let dbConnect = dbo.getDb();
@@ -75,12 +72,13 @@ gamesRoutes.route("/games/play/:gameId").post( (req, res) => {
 
     let query = { gameId: req.params.gameId };
 
-    let upsert = (gameEntry, query, originalReq, originalRes) => {
-        let wildCardList = gameEntry?.wildCards ? gameEntry.wildCards : wildCards(Math.floor(Math.random() * 5 + 2));
+    let upsert = async (gameEntry, query) => {
+        let wildCardList = gameEntry?.wildCards ? gameEntry.wildCards : wildCards(Math.floor(Math.random() * 3 + 4));
 
-        let { hand, type, score } = getBestHandByWallet(originalReq.body.user, originalReq.body.gameType, wildCardList);
+        let { hand, type, score } = await getBestHandByWallet(req.body.user, req.body.gameType, wildCardList);
+
         let newEntry = {
-            user: originalReq.body.user,
+            user: req.body.user,
             hand: hand,
             handType: type,
             score: score
@@ -88,8 +86,8 @@ gamesRoutes.route("/games/play/:gameId").post( (req, res) => {
     
         let newData =  {
             $setOnInsert: { 
-                "gameId": originalReq.params.gameId, 
-                "gameType": originalReq.body.gameType, 
+                "gameId": req.params.gameId, 
+                "gameType": req.body.gameType, 
                 "wildCards": wildCardList
             },
             $push: { "entries": newEntry }
@@ -99,7 +97,7 @@ gamesRoutes.route("/games/play/:gameId").post( (req, res) => {
             .collection("games")
             .updateOne(query, newData, { upsert: true } , (err, result) => {
                 if (err) throw err;
-                originalRes.json(result);
+                res.json(result);
         });
     }
 
@@ -107,7 +105,7 @@ gamesRoutes.route("/games/play/:gameId").post( (req, res) => {
         .collection("games")
         .findOne(query, (err, result) => {
             if (err) throw err;
-            upsert(result, query, req, res);
+            upsert(result, query);
         });
     
 });

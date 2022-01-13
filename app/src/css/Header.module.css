@@ -10,5 +10,15 @@
 .Header * {
     font-family: "Montserrat", sans-serif;
     font-size: 1em;
-    color: white;
+    color: #C6D8E5;
+}
+
+.ProfileButton {
+    border: 2px solid #186AA5;
+    background-color: transparent;
+    font-size: 0.67em;
+    padding: 0.5em 0;
+    height: 100%;
+    font-weight: 600;
+    cursor: pointer;
 }

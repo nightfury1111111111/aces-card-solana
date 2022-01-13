@@ -4,6 +4,7 @@ import styles from '../css/Header.module.css';
 
 const Header = (props) => {
     const user = props.user;
+    const onProfileClick = props.onProfileClick;
     let buttonWidth = "184px";
 
     return (
@@ -13,7 +14,7 @@ const Header = (props) => {
             </div>
             <p>The <b>ACES Contest</b></p>
             <div style={ { minWidth: buttonWidth } }>
-                <button style={ user ? { width: buttonWidth } : { display: "none" } }>PROFILE</button>
+                <button className={styles.ProfileButton} onClick={onProfileClick} style={ user ? { width: buttonWidth } : { display: "none" } }>PROFILE</button>
             </div>
         </div>
     )

@@ -4,8 +4,8 @@
     font-size: 30px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    height: 100%;
+    justify-content: flex-start;
+    height: 100vh;
 }
 
 .Home * {
@@ -13,12 +13,10 @@
 }
 
 .Content {
-    margin-top: 13%;
+    margin-top: 30vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 2em;
-    height: 75vh;
 }
 
 .Or {
@@ -71,4 +69,5 @@
     color: #E8EFF7;
     font-size: 0.67em;
     font-weight: 600;
+    padding: 0;
 }

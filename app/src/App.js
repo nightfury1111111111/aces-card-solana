@@ -17,19 +17,19 @@ import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
 import { ConnectionProvider, WalletProvider, useWallet } from '@solana/wallet-adapter-react';
 
 // Pages
-import Home from './pages/Home';
-import Game from './pages/Game';
+import Home from './pages/Home/Home';
+import Game from './pages/Game/Game';
 
 const App = () => {
   const wallet = useWallet();
 
   return (
-    <div>
+    <>
       <Routes>
         <Route path="/" element={<Home wallet={wallet}/>}/>
         <Route path="/play" element={<Game wallet={wallet}/>}/>
       </Routes>
-    </div>
+    </>
   );
 }
 

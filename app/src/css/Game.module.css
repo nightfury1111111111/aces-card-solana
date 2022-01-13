@@ -1,0 +1,6 @@
+.Game {
+    background: url("../images/background_game.png") top left fixed;
+    background-size: cover;
+    font-size: 30px;
+    height: 100vh;
+}
