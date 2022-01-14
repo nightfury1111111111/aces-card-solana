@@ -1,0 +1,132 @@
+.DashContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding-left: 1em;
+    overflow: hidden;
+}
+
+.Dashboard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 60%;
+}
+
+.Dashboard * {
+    color: white;
+    font-family: "Montserrat", sans-serif;
+}
+
+.Dashboard hr {
+    width: 100%;
+    margin: 1.25em auto 0.6em;
+    background-color: #666D79;
+}
+
+.Play {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.Play button {
+    background-color: transparent;
+    color: #C6D8E5;
+    border: 2px solid #186AA5;
+    border-radius: 30px;
+    padding: 0.5em 2em;
+    font-size: 0.67em;
+    margin: 4em 0;
+    cursor: pointer;
+}
+
+.Play p {
+    font-size: 0.8em;
+    margin: 0;
+}
+
+.Replay {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.Replay button {
+    margin: 0;
+}
+
+.Replay p {
+    font-size: 0.8em;
+}
+
+.Hand {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    margin: 1em 0;
+}
+
+.Hand img {
+    height: 4em;
+    width: auto;
+    border-radius: 4px;
+    margin: 0 0.5em;
+}
+
+.Cards {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 50vh;
+    height: 400px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.Cards p {
+    font-size: 0.8em;
+}
+
+.CardGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-auto-flow: row;
+    grid-auto-rows: 15vh;
+    grid-gap: 40px 24px;
+}
+
+.Card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.Card img {
+    height: 100%;
+    width: auto;
+    border-radius: 4px;
+}
+
+.Card h2 {
+    text-decoration: underline;
+    font-size: 0.5em;
+    margin-top: 0;
+}
+
+.Card ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.Card li {
+    font-size: 0.35em;
+}
