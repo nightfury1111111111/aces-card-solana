@@ -13,15 +13,7 @@ const Profile = (props) => {
 
     useEffect(() => {
         getRecentGames(wallet).then(history => {
-            let games = [];
-            // Brute force find rankigns from last 5 games
-            for (let i = 0; i < 5; i++) {
-                let date = history.games[i].gameId.slice(0,2);
-                let month = history.games[i].gameId.slice(2,4);
-                let year = history.games[i].gameId.slice(4,8);
-                games.push({ date: `${date}/${month}/${year}` })
-            }
-            
+            setRecentGames(history);
         })
     }, [wallet, setRecentGames]);
 
@@ -36,19 +28,27 @@ const Profile = (props) => {
                     </div>
                     <div>
                         <p>Games played:</p>
-                        <p>0</p>
+                        <p>{recentGames?.games ? recentGames.games.length : "0"}</p>
                     </div>
                     <div>
                         <p>Coin balance:</p>
-                        <p>0c</p>
+                        <p>Coming soon!</p>
                     </div>
                     <div>
                         <p>Contest history:</p>
-                        <ul>
+                        <div className={styles.History}>
                         {
-                            recentGames.map()
+                            recentGames?.games ? (
+                                recentGames.games.slice(0,5).map( (gameId, i) => 
+                                    <div key={i} className={styles.HistoryEntry}>
+                                        {`${gameId.substring(0,2)}/${gameId.substring(2,4)}/${gameId.substring(4,8)} - Rank ${recentGames.ranks[i]}/${recentGames.totals[i]}`}
+                                    </div>
+                                )
+                            ) : (
+                                <p>Play your first game!</p>
+                            )
                         }
-                        </ul>
+                        </div>
                     </div>
                 </div>
             </div>

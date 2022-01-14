@@ -76,3 +76,17 @@
 .Profile button:hover {
   background-color: red;
 }
+
+.History {
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+  align-items: flex-end;
+}
+
+.HistoryEntry {
+  color: #76A3C4;
+  font-size: 0.8em;
+  border-bottom: 1px dashed #73A1C2;
+  padding-bottom: 0.33em;
+}

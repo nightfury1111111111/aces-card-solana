@@ -5,13 +5,13 @@ export const userLogin = async (pubkey) => {
     return res.data;
 }
 
-export const getGameEntry = async (pubkey, gameId) => {
-    let res = await axios.get(`/users/history/${pubkey}-${gameId}`);
+export const getRecentGames = async (pubkey) => {
+    let res = await axios.get(`/users/history/${pubkey}`);
     return res.data;
 }
 
-export const getRecentGames = async (pubkey) => {
-    let res = await axios.get(`/users/history/${pubkey}`);
+export const getGameEntry = async (pubkey, gameId) => {
+    let res = await axios.get(`/users/history/${pubkey}-${gameId}`);
     return res.data;
 }
 

@@ -65,6 +65,11 @@ gamesRoutes.route("/games/play/:gameId").post( (req, res) => {
         let wildCardList = gameEntry?.wildCards ? gameEntry.wildCards : wildCards(4);
 
         let { hand, type, score } = await getBestHandByWallet(req.body.user, req.body.gameType, wildCardList);
+        // Not enough Aces to play
+        if (!hand) {
+            res.json({});
+            return;
+        }
 
         // Update game entry
         let gameEntryUpsert = {

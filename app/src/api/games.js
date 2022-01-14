@@ -1,8 +1,5 @@
 import axios from 'axios';
 
-
-// EXPORTS
-
 export const getGameRankings = async (gameId) => {
     let res = await axios.get(`/games/${gameId}`);
     return res.data.entries;

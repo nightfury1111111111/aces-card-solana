@@ -147,7 +147,7 @@ function rankHand(tokens, gameType, wildCards) {
 
 async function getBestHandByWallet(pubkey, gameType, wildCards) {
     let acesTokens = await getAcesTokens(pubkey);
-    if (acesTokens.length < 1) { console.log("Need 1 Aces NFTs to play."); return null;}
+    if (acesTokens.length < 1) { console.log("Need 1 Aces NFTs to play."); return {};}
     let bestHand = rankHand(acesTokens, gameType, wildCards);
     return bestHand;
 }

@@ -27,49 +27,43 @@ usersRoutes.route("/users/login").post( (req, res) => {
         });
 });
 
-// Get recent games by user
+// Get games by user
 usersRoutes.route("/users/history/:user").get( (req, res) => {
     let dbConnect = dbo.getDb();
-
     let query = { user: req.params.user };
     try {
         dbConnect
-            .collection("users")
-            .findOne(query, (err1, result1) => {
-                if (err1) throw err1;
-                let history = result1.gameHistory.slice(0,15);
-                let response = { games: [], entries: [], bestEntries: [] }
-                // Aggregate entry history
-                for (let i = 0; i < history.length; i++) {
-                    let index = games.indexOf(history[i].gameId);
-                    let entry = { hand: history[i].hand, handType: history[i].handType, score: history[i].score };
-                    if (index === -1) {
-                        response.games.push(history[i].gameId);
-                        response.entries.push([entry]);
-                    }
-                    else {
-                        response.entries[index].push(entry);
-                    }
-                }
-                // Dedup history by gameId, finding best entry in each
-                for (let i = 0; i < response.games.length; i++) {
-                    response.bestEntries.push(response.entries[i].sort((a,b) => fiveCardRank(b,a))[0]);
-                }
-                let gameQuery = { user: { $in: response.games.slice(0,5)}};
-                dbConnect
-                    .collection("games")
-                    .find(gameQuery)
-                    .toArray( (err2, result2) => {
-                        if (err2) throw err2;
-                        let fullGames = result2;
-                        let final = { games: [], ranks: [], totals: [] };
-                    })
-                res.json( { games: response.games, entries: response.bestEntries} );
-            })
+        .collection("users")
+        .findOne(query, (userErr, userResult) => {
+            if (userErr) throw userErr;
+
+            dbConnect
+                .collection("games")
+                .find({})
+                .toArray( (gamesErr, gamesResult) => {
+                    if (gamesErr) throw gamesErr;
+                    let userGames = userResult.gameHistory.map(games => games.gameId);
+                    let games = gamesResult.filter( game => {
+                        for (let i = 0; i < game.entries.length; i++)
+                            if (game.entries[i].user === req.params.user) return true;
+                        return false;
+                    });
+                    
+                    let gameIds = games.map(entry => entry.gameId);
+                    let ranks = games.map(entry => 
+                        entry.entries
+                            .sort((a,b) => fiveCardRank(b,a))
+                            .map(e => e.user).indexOf(req.params.user) + 1
+                    );
+                    let totals = games.map(entry => entry.entries.length);
+
+                    res.json({ games: gameIds, ranks: ranks, totals: totals});
+                });
+        });
     } catch {
-        let result = {};
-        res.json(result);
+        res.json({});
     }
+
 })
 
 // Get (best) game entry by gameId
