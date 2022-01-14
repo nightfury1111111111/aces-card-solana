@@ -17,10 +17,11 @@ Games doc ref:
 const express = require("express");
 const gamesRoutes = express.Router();
 
-// This will help us connect to the database
-const dbo = require("../db/conn");
 const { wildCards } = require('../utils/wildCards');
 const { getBestHandByWallet } = require("../controller/games_controller");
+
+const dbo = require("../db/conn");
+const { fiveCardRank } = require("../utils/poker");
 
 // Get all games (max. 10)
 gamesRoutes.route("/games").get( (_req, res) => {
@@ -46,66 +47,77 @@ gamesRoutes.route("/games/:gameId").get( (req, res) => {
       .collection("games")
       .findOne(query, (err, result) => {
         if (err) throw err;
-        res.json(result);
+        if (result)
+            res.json({ entries: result.entries.sort((a,b) => fiveCardRank(b,a)) });
+        else
+            res.json({entries: []});
     });
-});
-
-// Get recent games by user ID
-gamesRoutes.route("/games/mygames/:user").get( (req, res) => {
-    let dbConnect = dbo.getDb();
-    dbConnect
-      .collection("games")
-      .find({})
-      .toArray( (err, result) => {
-          if (err) throw err;
-          res.json(result.filter( (game) => {
-            for (let i=0; i < game.entries.length; i++) {
-                if (game.entries[i].user === req.params.user) return true;
-            }
-          }));
-      })
 });
 
 // Post new game entry
 gamesRoutes.route("/games/play/:gameId").post( (req, res) => {
     let dbConnect = dbo.getDb();
 
-    let query = { gameId: req.params.gameId };
+    let gameQuery = { gameId: req.params.gameId };
+    let userQuery = { user: req.body.user };
 
-    let upsert = async (gameEntry, query) => {
-        let wildCardList = gameEntry?.wildCards ? gameEntry.wildCards : wildCards(Math.floor(Math.random() * 3 + 4));
+    let upsert = async (gameEntry, gameQuery, userQuery) => {
+        let wildCardList = gameEntry?.wildCards ? gameEntry.wildCards : wildCards(4);
 
         let { hand, type, score } = await getBestHandByWallet(req.body.user, req.body.gameType, wildCardList);
 
-        let newEntry = {
+        // Update game entry
+        let gameEntryUpsert = {
             user: req.body.user,
             hand: hand,
             handType: type,
             score: score
         };
     
-        let newData =  {
+        let gameData =  {
             $setOnInsert: { 
                 "gameId": req.params.gameId, 
                 "gameType": req.body.gameType, 
                 "wildCards": wildCardList
             },
-            $push: { "entries": newEntry }
+            $push: { "entries": gameEntryUpsert }
         }
+
+        // Update user entry
+        let userEntry = {
+            gameId: req.params.gameId,
+            hand: hand,
+            handType: type,
+            score: score
+        }
+
+        let userData = {
+            $setOnInsert: {
+                user: req.params.user
+            },
+            $push: { "gameHistory": userEntry }
+        }
+
+        dbConnect
+            .collection("users")
+            .updateOne(userQuery, userData, { upsert: true }, (err, _) => {
+                if (err) throw err;
+        });
     
         dbConnect
             .collection("games")
-            .updateOne(query, newData, { upsert: true } , (err, result) => {
+            .updateOne(gameQuery, gameData, { upsert: true } , (err, _) => {
                 if (err) throw err;
-                res.json(result);
+                res.json(userEntry);
         });
+
     }
 
     dbConnect
         .collection("games")
-        .findOne(query, (err, result) => {
+        .findOne(gameQuery, (err, result) => {
             if (err) throw err;
-            upsert(result, query);
+            upsert(result, gameQuery, userQuery);
         });
     
 });

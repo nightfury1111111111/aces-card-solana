@@ -6,6 +6,10 @@ const fiveCardRank = (a, b) => {
     let score = a.score - b.score;
     if (score !== 0) return score;
 
+    if (!a.score && !b.score) return 0;
+    if (!a.score) return 1;
+    if (!b.score) return -1;
+
     // Tie-breaker situations
     let handA = a.hand; let handB = b.hand;
     let facesA = {}; let facesB = {};

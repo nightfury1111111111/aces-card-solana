@@ -17,6 +17,7 @@ Games doc ref:
 const { getAcesTokens } = require('../db/query.js');
 const { kCombinations } = require('../utils/combinations');
 const { fiveCardRank, faceOrder } = require('../utils/poker');
+const { getGameCards } = require('../utils/wildCards');
 
 /**
  * Logic helpers
@@ -72,16 +73,7 @@ function isFlush(handSuits) {
 
 function rankHand(tokens, gameType, wildCards) {
     // Consider wild cards
-    let allCards = tokens
-        .map( token => {
-            let suit, face;
-            for (let i = 0; i < token.attributes.length; i++) {
-                if (token.attributes[i].trait_type === "Suit") suit = token.attributes[i].value;
-                if (token.attributes[i].trait_type === "Value") face = token.attributes[i].value;
-            }
-            return { mint: token.mint, image: token.image, suit: suit, face: face };
-        })
-        .concat(wildCards);
+    let allCards = getGameCards(tokens, wildCards);
 
     // Get best hand based on game type
     switch (gameType) {
@@ -143,10 +135,9 @@ function rankHand(tokens, gameType, wildCards) {
                 if (hands[i].hand.length !== 5) console.log(hands[i])
             }
 
-            hands.sort( (a,b) => fiveCardRank(a,b) );
-            console.log(hands[hands.length - 1]);
+            hands.sort( (a,b) => fiveCardRank(b,a) );
 
-            return hands[hands.length - 1];
+            return hands[0];
     }
 }
 
@@ -158,7 +149,6 @@ async function getBestHandByWallet(pubkey, gameType, wildCards) {
     let acesTokens = await getAcesTokens(pubkey);
     if (acesTokens.length < 1) { console.log("Need 1 Aces NFTs to play."); return null;}
     let bestHand = rankHand(acesTokens, gameType, wildCards);
-    console.log(bestHand);
     return bestHand;
 }
 

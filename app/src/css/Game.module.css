@@ -2,5 +2,21 @@
     background: url("../images/background_game.png") top left fixed;
     background-size: cover;
     font-size: 30px;
-    height: 100vh;
+    max-height: 100vh;
+    overflow: hidden;
+}
+
+.Content {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.GameArea {
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+}
+
+.Rankings {
+    width: 25%;
 }

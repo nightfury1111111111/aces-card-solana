@@ -1,7 +1,6 @@
 .Header {
     font-size: 30px;
     font-weight: 400;
-    margin: 0 3em;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -12,10 +11,19 @@
     font-size: 1em;
     color: #C6D8E5;
 }
+.HeaderHome {
+    composes: Header;
+    margin: 0 3em;
+}
+
+.HeaderGame {
+    composes: Header;
+    margin: 0 1.5em 0 3em;
+}
 
 .ProfileButton {
     border: 2px solid #186AA5;
-    background-color: transparent;
+    background-color: #2A2E39AA;
     font-size: 0.67em;
     padding: 0.5em 0;
     height: 100%;

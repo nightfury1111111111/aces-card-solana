@@ -41,7 +41,7 @@ const Home = (props) => {
                         <hr/>
                     </div>
                     <a href="https://www.magiceden.io">BUY</a>
-                    <p>In Order to Play the Game You Must Hold 3 Aces NFTs</p>
+                    <p>In Order to Play the Game You Must Hold At Least 1 Aces NFT</p>
                 </div>
         </div>
     )

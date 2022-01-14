@@ -1,3 +1,43 @@
+.LeaderboardContainer {
+    background-color: #666D79;
+    width: 100%;
+    height: 100vh;
+    font-family: "Montserrat", sans-serif;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
 .Leaderboard {
-    background-color: #76A3C4;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: 1em;
+}
+
+.Leaderboard hr {
+    width: 100%;
+    margin: 0.6em auto 1.25em;
+    background-color: #2A2E39;
+}
+
+.Leaderboard h1 {
+    font-size: 1em;
+    margin: 0;
+}
+
+.BoldRank {
+    font-weight: 700;
+    color: #76A3C4;
+}
+
+.Leaderboard li {
+    text-align: left;
+    list-style-type: none;
+    margin: 0.5em 0;
+    padding-right: 0.25em;
 }

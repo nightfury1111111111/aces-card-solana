@@ -12,4 +12,17 @@ const wildCards = (numWildcards) => {
     return res;
 }
 
+function getGameCards(tokens, wildCards) {
+    return tokens
+            .map( token => {
+                let suit, face;
+                for (let i = 0; i < token.attributes.length; i++) {
+                    if (token.attributes[i].trait_type === "Suit") suit = token.attributes[i].value;
+                    if (token.attributes[i].trait_type === "Value") face = token.attributes[i].value;
+                }
+                return { mint: token.mint, image: token.image, suit: suit, face: face };
+    }).concat(wildCards);
+}
+
 exports.wildCards = wildCards;
+exports.getGameCards = getGameCards;

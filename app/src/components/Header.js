@@ -8,7 +8,7 @@ const Header = (props) => {
     let buttonWidth = "184px";
 
     return (
-        <div className={styles.Header}>
+        <div className={user ? styles.HeaderGame : styles.HeaderHome}>
             <div style={ { minWidth: buttonWidth } }>
                 <p>The <b>ACES</b></p>
             </div>
