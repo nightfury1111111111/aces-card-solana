@@ -4,7 +4,7 @@
   "description": "The Core Repo for the Aces NFT Card Contest",
   "main": "card-contest/web2/server.js",
   "scripts": {
-    "start": "cd card-contest/web2/ && npm start",
+    "start": "npm --prefix card-contest/web2 start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
