@@ -6,7 +6,8 @@
   "scripts": {
     "start": "npm --prefix card-contest/web2 start",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "deploy": "(cd card-contest/app && npm run build) && git push heroku develop:main"
+    "build": "cd card-contest/app && npm run build",
+    "deploy": "git push heroku develop:main"
   },
   "repository": {
     "type": "git",
