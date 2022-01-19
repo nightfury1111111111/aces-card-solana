@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useReducer } from 'react';
 
 import { getAvailableCards } from '../../api/users';
 import { playGame, getGameRankings } from '../../api/games';
@@ -6,6 +6,7 @@ import { playGame, getGameRankings } from '../../api/games';
 import styles from '../../css/Dashboard.module.css';
 
 const faceRankings = [ "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
+const maxEntries = 3;
 
 const Dashboard = (props) => {
     const wallet = props.wallet;
@@ -25,7 +26,7 @@ const Dashboard = (props) => {
             setAvailableCards(cards);
         })
         return () => setAvailableCards([]);
-    }, [wallet, gameId]);
+    }, [wallet, gameId, rankings]);
 
     // Extract aces cards from available cards array
     useEffect(() => {
@@ -39,14 +40,35 @@ const Dashboard = (props) => {
             setWildCards(availableCards.filter(card => !card.image));
     }, [availableCards, setWildCards]);
 
+    const dispatch = (state, action) => {
+        switch (action.type) {
+            case 'increment':
+                return {count: state.count + 1};
+            default:
+                throw new Error();
+        }
+    }
+
+    const [ entries, entriesDispatch ] = useReducer(dispatch, {count: 0});
+
     // Get best hand from rankings
     useEffect(() => {
         if (rankings) {
             let i = rankings.map(entry => entry.user).indexOf(wallet);
             console.log("setting");
-            setBestHand(i !== -1 ? rankings[i] : null);
+            if (i !== -1) setBestHand(rankings[i]);
+
+            // Get num of entries at login
+            if (entries.count === 0) {
+                for (let i = 0; i < rankings.length; i++) {
+                    if (rankings[i].user === wallet) {
+                        entriesDispatch({type: 'increment'});
+                        console.log("entry");
+                    }
+                }
+            }
         }
-    }, [wallet, rankings]);
+    }, [wallet, rankings, entries, entriesDispatch]);
 
     return (
         <div className={styles.DashContainer}>
@@ -54,70 +76,104 @@ const Dashboard = (props) => {
                 <div className={styles.Play}>
                     {
                         bestHand ? (
-                            <>
-                                <p>{`${(bestHand.handType[0].toUpperCase() + bestHand.handType.slice(1)).replace("-", " ")}`}</p>
-                                <div className={styles.Hand}>
-                                    {
-                                        bestHand.hand
-                                            .sort((a, b) => (faceRankings.indexOf(b.face) - faceRankings.indexOf(a.face)))
-                                            .map( (card, i) => 
-                                            <div key={i} >
-                                                {
-                                                    card.image ? (
-                                                        <img src={card.image} alt={card.face + " of " + card.suit}/>
-                                                    ) : (
-                                                        <img src={`/images/wildCards/${card.face}${card.suit}.png`} alt={card.face + " of " + card.suit}/>
-                                                    )
-                                                }
-                                            </div>
-                                        )
-                                    }
-                                </div>
-                                <div className={styles.Replay}>
-                                    <p>{rankings ? `Rank ${rank}/${rankings.length}` : `Rank`}</p>
+                            !bestHand.handType ? (
+                                <>
+                                    <p>Need at least 1 Aces NFT to play the card contest.</p>
                                     <button onClick={() => playGame(wallet, gameId).then(entry => {
-                                        setBestHand(entry); 
-                                        if (wallet) {
-                                            getGameRankings(gameId).then(entries => {
-                                                setRankings(entries);
-                                                let r = entries.map(entry => entry.user).indexOf(wallet);
-                                                setRank(r === -1 ? "?" : r + 1);
-                                            })
+                                        if (entry && entry !== {}) {
+                                            setBestHand(entry); 
+                                            if (wallet) {
+                                                getGameRankings(gameId).then(entries => {
+                                                    setRankings(entries);
+                                                    if (entries) {
+                                                        let r = entries.map(entry => entry.user).indexOf(wallet);
+                                                        setRank(r === -1 ? "?" : r + 1);
+                                                    }
+                                                })
+                                            }
                                         }
-                                    })}>RESHUFFLE</button>
-                                </div>
-                            </>
+                                    })}>PLAY</button>
+                                    <p>{rankings ? `Rank: ${rank}/${rankings.length}` : `Rank`}</p>
+                                </>
+                            ) : (
+                                <>
+                                    <p>{`${(bestHand.handType[0].toUpperCase() + bestHand.handType.slice(1)).replace("-", " ")}`}</p>
+                                    <div className={styles.Hand}>
+                                        {
+                                            bestHand.hand
+                                                .sort((a, b) => (faceRankings.indexOf(b.face) - faceRankings.indexOf(a.face)))
+                                                .map( (card, i) => 
+                                                <div key={i} >
+                                                    {
+                                                        card.image ? (
+                                                            <img src={`/images/wildCards/${card.face}${card.suit}.png`} alt={card.face + " of " + card.suit}/>
+                                                        ) : (
+                                                            <img src={`/images/wildCards/${card.face}${card.suit}.png`} alt={card.face + " of " + card.suit}/>
+                                                        )
+                                                    }
+                                                </div>
+                                            )
+                                        }
+                                    </div>
+                                    <div className={styles.Replay}>
+                                        <div className={styles.Stats}>
+                                            <p><b>Rank: </b>{rankings ? `${rank}/${rankings.length}` : ``}</p>
+                                            <p><b>Entries: </b>{`${entries.count}/${maxEntries}`}</p>
+                                        </div>
+                                        <button onClick={() => playGame(wallet, gameId).then(entry => {
+                                            if (entry && entry !== {}) {
+                                                setBestHand(entry); 
+                                                if (wallet) {
+                                                    getGameRankings(gameId).then(entries => {
+                                                        setRankings(entries);
+                                                        let r = entries.map(entry => entry.user).indexOf(wallet);
+                                                        entriesDispatch({type: 'increment'});
+                                                        setRank(r === -1 ? "?" : r + 1);
+                                                    })
+                                                }
+                                            }
+                                        })} disabled={entries.count >= maxEntries ? true : false}>RESHUFFLE</button>
+                                    </div>
+                                </>
+                            )
                         ) : (
                             <>
                                 <p>Best Hand</p>
                                 <button onClick={() => playGame(wallet, gameId).then(entry => {
-                                        setBestHand(entry); 
-                                        if (wallet) {
-                                            getGameRankings(gameId).then(entries => {
-                                                setRankings(entries);
-                                                if (entries) {
-                                                    let r = entries.map(entry => entry.user).indexOf(wallet);
-                                                    setRank(r === -1 ? "?" : r + 1);
-                                                }
-                                            })
+                                        if (entry && entry !== {}) {
+                                            setBestHand(entry); 
+                                            if (wallet) {
+                                                getGameRankings(gameId).then(entries => {
+                                                    setRankings(entries);
+                                                    if (entries) {
+                                                        let r = entries.map(entry => entry.user).indexOf(wallet);
+                                                        setRank(r === -1 ? "?" : r + 1);
+                                                    }
+                                                })
+                                            }
                                         }
                                     })}>PLAY</button>
-                                <p>{rankings ? `Rank ${rank}/${rankings.length}` : `Rank`}</p>
+                                <p>{rankings ? `Rank: ${rank}/${rankings.length}` : `Rank`}</p>
                             </>
                         )
                     }
                 </div>
                 <hr/>
                 <div className={styles.Cards}>
-                    <p>Available Cards</p>
                     <div className={styles.CardGrid}>
+                        <div className={styles.Headline}>
+                            <p>ACES</p>
+                        </div>
                     {
                         acesCards.map( (card, i) => 
                             <div key={i} className={styles.Card}>
-                                <img src={card.image} alt={card.face + " of " + card.suit}/>
+                                <img src={`/images/wildCards/${card.face}${card.suit}.png`} alt={card.face + " of " + card.suit}/>
                             </div>
                         )
                     }
+                    <div className={styles.Headline}>
+                        <p>Table Cards</p>
+                    </div>
                     {
                         wildCards.map( (card, i) => 
                             <div key={i} className={styles.Card}>
