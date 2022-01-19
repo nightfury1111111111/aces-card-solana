@@ -13,8 +13,8 @@ const Leaderboard = (props) => {
     useEffect(() => {
         if (rankings) {
             if (rank <= 5) setRankingsToShow(rankings.slice(0,Math.min(8, rankings.length)));
-            else if (rank > rankings.length - 5) setRankingsToShow(rankings.slice(rankings.length - Math.min(8, rankings.length), rankings.length));
-            else setRankingsToShow(rankings.slice(rank - Math.min(4, rankings.length / 2), rank).concat(rankings.slice(rank, rank + Math.min(4, rankings.length / 2))));
+            else if (rank > rankings.length - 5) setRankingsToShow(rankings.slice(rankings.length - Math.min(10, rankings.length), rankings.length));
+            else setRankingsToShow(rankings.slice(rank - Math.min(5, rankings.length / 2), rank).concat(rankings.slice(rank, rank + Math.min(5, rankings.length / 2))));
         }
     }, [rankings, rank, setRankingsToShow]);
 
