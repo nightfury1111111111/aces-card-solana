@@ -2,6 +2,7 @@ const express = require("express");
 const path = require("path");
 require("dotenv").config({ path: "./config.env" });
 const port = process.env.PORT || 5001;
+console.log(port);
 
 // Get driver connection
 const dbo = require("./db/conn");
