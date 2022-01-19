@@ -19,5 +19,11 @@
   "bugs": {
     "url": "https://github.com/mzperezous/aces-nft/issues"
   },
-  "homepage": "https://github.com/mzperezous/aces-nft#readme"
+  "homepage": "https://github.com/mzperezous/aces-nft#readme",
+  "engines": {
+    "node": "14.18.1"
+  },
+  "dependencies": {
+    "react-scripts": "4.0.3"
+  }
 }
