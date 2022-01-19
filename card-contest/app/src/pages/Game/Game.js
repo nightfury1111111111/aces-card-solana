@@ -37,6 +37,7 @@ const Game = (props) => {
 
     return wallet.publicKey ? (
         <div className={styles.Game}>
+            <p><b>BETA</b></p>
             <div className={styles.Content}>
                 <div className={styles.GameArea}>
                     <Header user={true} onProfileClick={() => setIsProfileOpen(true)}/>

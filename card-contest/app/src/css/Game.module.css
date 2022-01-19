@@ -6,6 +6,16 @@
     overflow: hidden;
 }
 
+.Game > p {
+    font-family: "Montserrat", sans-serif;
+    position: absolute;
+    bottom: 0;
+    left: 0.5em;
+    font-size: 1em;
+    font-weight: 600;  
+    color: #C6D8E5;  
+}
+
 .Content {
     display: flex;
     justify-content: flex-start;
