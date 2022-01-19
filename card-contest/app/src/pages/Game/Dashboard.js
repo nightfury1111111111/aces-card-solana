@@ -6,7 +6,7 @@ import { playGame, getGameRankings } from '../../api/games';
 import styles from '../../css/Dashboard.module.css';
 
 const faceRankings = [ "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
-const maxEntries = 3;
+const maxEntries = process.env.MAX_ENTRIES || 10;
 
 const Dashboard = (props) => {
     const wallet = props.wallet;
