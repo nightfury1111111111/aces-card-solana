@@ -1,4 +1,4 @@
-import { useState, useEffect, useReducer } from 'react';
+import { useState, useEffect } from 'react';
 
 import { getAvailableCards } from '../../api/users';
 import { playGame, getGameRankings } from '../../api/games';
