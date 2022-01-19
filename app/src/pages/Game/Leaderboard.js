@@ -29,7 +29,7 @@ const Leaderboard = (props) => {
                         rankingsToShow ? (
                             rankingsToShow.map( (entry, i) => 
                             <li className={i === r ? styles.BoldRank : ""} key={i} >
-                                {`# ${i + 1}: ` + (entry.handType[0].toUpperCase() + entry.handType.slice(1)).replace("-", " ")}
+                                {`#${i + 1}: ` + entry.user}
                             </li>
                             )
                         ) : (

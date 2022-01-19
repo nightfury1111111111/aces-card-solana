@@ -17,6 +17,7 @@ const Game = (props) => {
     const [ isProfileOpen, setIsProfileOpen ] = useState(false);
     const [ rankings, setRankings ] = useState();
     const [ rank, setRank ] = useState("?");
+    const [ reloadRankings, setReloadRankings ] = useState(0);
 
     // Get current game rankings and find rank
     useEffect(() => {
@@ -32,7 +33,7 @@ const Game = (props) => {
                 }
             })
         }
-    }, [wallet, gameId, setRank, setRankings]);
+    }, [wallet, gameId, reloadRankings, setRank, setRankings]);
 
     return wallet.publicKey ? (
         <div className={styles.Game}>
@@ -44,8 +45,10 @@ const Game = (props) => {
                         gameId={gameId} 
                         rankings={rankings} 
                         rank={rank} 
+                        reloadRankings={reloadRankings}
                         setRankings={setRankings} 
                         setRank={setRank}
+                        setReloadRankings={setReloadRankings}
                     />
                 </div>
                 <div className={styles.Rankings}>

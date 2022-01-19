@@ -35,9 +35,18 @@
     color: #76A3C4;
 }
 
+.Leaderboard ul {
+    max-width: 100%;
+    margin: 0;
+}
+
 .Leaderboard li {
     text-align: left;
     list-style-type: none;
     margin: 0.5em 0;
-    padding-right: 0.25em;
+    padding-right: 0.5em;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 100%;
+    white-space: nowrap;
 }

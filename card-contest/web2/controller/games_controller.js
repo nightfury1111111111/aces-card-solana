@@ -83,7 +83,7 @@ function rankHand(tokens, gameType, wildCards) {
             for (let i = 0; i < hands.length; i++) {
                 let currHand = hands[i].hand;
 
-                let faces = currHand.map(card => card.face);
+                let faces = currHand.map(card => card.face.length === 1 ? card.face : card.face[0].toUpperCase());
                 let suits = currHand.map(card => card.suit);
                 let uniqueFaces = [...new Set(faces)];
 
