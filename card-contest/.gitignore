@@ -4,5 +4,4 @@
 target
 **/*.rs.bk
 node_modules
-web2/config.env
-web2/.env
+

@@ -21,7 +21,7 @@ const Dashboard = (props) => {
     const [ acesCards, setAcesCards ] = useState([]);
     const [ wildCards, setWildCards ] = useState([]);
     const [ bestHand, setBestHand ] = useState();
-    const [ entries, setEntries ] = useState(0);
+    const [ entries, setEntries ] = useState();
 
     // Get available cards
     useEffect(() => {
@@ -117,7 +117,7 @@ const Dashboard = (props) => {
                                             <p><b>Rank: </b>{rankings ? `${rank}/${rankings.length}` : ``}</p>
                                             <p><b>Entries: </b>{`${entries}/${maxEntries}`}</p>
                                         </div>
-                                        <button onClick={() => createEntry()} disabled={entries >= maxEntries ? true : false}>RESHUFFLE</button>
+                                        <button onClick={() => createEntry()} disabled={entries && entries >= maxEntries ? true : false}>RESHUFFLE</button>
                                     </div>
                                 </>
                             )

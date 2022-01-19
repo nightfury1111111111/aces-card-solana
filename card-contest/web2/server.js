@@ -1,17 +1,30 @@
 const express = require("express");
-const app = express();
+const path = require("path");
 require("dotenv").config({ path: "./config.env" });
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5001;
 
+// Get driver connection
+const dbo = require("./db/conn");
+
+const app = express();
 app.use(express.json());
+app.use(express.static(path.resolve(__dirname, "./client/build")));
+
+// Send client app
+app.get("/", (_req, res) => {
+  res.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
+});
+app.get("/play", (_req, res) => {
+  res.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
+})
+
+// Set up API endpoints
 app.use(require("./routes/users"));
 app.use(require("./routes/games"));
-
-// get driver connection
-const dbo = require("./db/conn");
  
+// Start app
 app.listen(port, () => {
-  // perform a database connection when server starts
+  // Perform a database connection when server starts
   dbo.connectToServer(function (err) {
     if (err) console.error(err);
  
