@@ -7,8 +7,8 @@ const collectionSymbol = process.env.COLLECTION_SYMBOL;
 const collectionDscr = process.env.COLLECTION_DSCR;
 
 async function getAcesTokens(pubkey) {
-    //const endpoint = "https://api.mainnet-beta.solana.com/";
-    const endpoint = "https://api.devnet.solana.com/";
+    const endpoint = "https://api.mainnet-beta.solana.com/";
+    //const endpoint = "https://api.devnet.solana.com/";
     const connection = new Connection(endpoint);
 
     let allNfts = await getParsedNftAccountsByOwner({ publicAddress: pubkey, connection: connection });

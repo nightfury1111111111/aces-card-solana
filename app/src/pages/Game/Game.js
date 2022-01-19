@@ -12,7 +12,8 @@ import styles from '../../css/Game.module.css';
 
 const Game = (props) => {
     const wallet = props.wallet;
-    const gameId = "010120225card";
+    const gameType = "5card";
+    const gameId = String(new Date().getDate()).padStart(2,'0') + String(new Date().getMonth()).padStart(2,'0') + String(new Date().getFullYear()) + gameType;
     const [ isProfileOpen, setIsProfileOpen ] = useState(false);
     const [ rankings, setRankings ] = useState();
     const [ rank, setRank ] = useState("?");
