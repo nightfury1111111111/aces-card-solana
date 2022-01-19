@@ -60,8 +60,11 @@ const Dashboard = (props) => {
         }
     }, [wallet, rankings, setEntries]);
 
+    const [ playAgainButton, setPlayAgainButton ] = useState("PLAY AGAIN");
+
     // Create a game entry request
     const createEntry = () => {
+        setPlayAgainButton("Thinking...");
         playGame(wallet, gameId).then(entry => {
             if (entry && entry !== {}) {
                 setBestHand(entry); 
@@ -75,6 +78,7 @@ const Dashboard = (props) => {
                     })
                 }
                 setReloadRankings(reloadRankings + 1);
+                setPlayAgainButton("PLAY AGAIN");
             }
         })
     };
@@ -117,7 +121,10 @@ const Dashboard = (props) => {
                                             <p><b>Rank: </b>{rankings ? `${rank}/${rankings.length}` : ``}</p>
                                             <p><b>Entries: </b>{`${entries}/${maxEntries}`}</p>
                                         </div>
-                                        <button onClick={() => createEntry()} disabled={entries && entries >= maxEntries ? true : false}>RESHUFFLE</button>
+                                        <button onClick={() => createEntry()} 
+                                            disabled={(entries && entries >= maxEntries) || playAgainButton !== "PLAY AGAIN" ? true : false}>
+                                                {playAgainButton}
+                                        </button>
                                     </div>
                                 </>
                             )
