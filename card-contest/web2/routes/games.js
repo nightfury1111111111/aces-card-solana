@@ -62,7 +62,7 @@ gamesRoutes.route("/games/play/:gameId").post( (req, res) => {
     let userQuery = { user: req.body.user };
 
     let upsert = async (gameEntry, gameQuery, userQuery) => {
-        let wildCardList = gameEntry?.wildCards ? gameEntry.wildCards : wildCards(4);
+        let wildCardList = wildCards(4);
 
         let { hand, type, score } = await getBestHandByWallet(req.body.user, req.body.gameType, wildCardList);
         // Not enough Aces to play
@@ -76,14 +76,14 @@ gamesRoutes.route("/games/play/:gameId").post( (req, res) => {
             user: req.body.user,
             hand: hand,
             handType: type,
-            score: score
+            score: score,
+            wildCards: wildCardList
         };
     
         let gameData =  {
             $setOnInsert: { 
                 "gameId": req.params.gameId, 
-                "gameType": req.body.gameType, 
-                "wildCards": wildCardList
+                "gameType": req.body.gameType
             },
             $push: { "entries": gameEntryUpsert }
         }
@@ -93,7 +93,8 @@ gamesRoutes.route("/games/play/:gameId").post( (req, res) => {
             gameId: req.params.gameId,
             hand: hand,
             handType: type,
-            score: score
+            score: score,
+            wildCards: wildCardList
         }
 
         let userData = {

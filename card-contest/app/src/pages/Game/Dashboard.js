@@ -17,7 +17,6 @@ const Dashboard = (props) => {
     const setRankings = props.setRankings;
     const reloadRankings = props.reloadRankings;
     const setReloadRankings = props.setReloadRankings;
-    const [ availableCards, setAvailableCards ] = useState();
     const [ acesCards, setAcesCards ] = useState([]);
     const [ wildCards, setWildCards ] = useState([]);
     const [ bestHand, setBestHand ] = useState();
@@ -26,22 +25,10 @@ const Dashboard = (props) => {
     // Get available cards
     useEffect(() => {
         getAvailableCards(wallet, gameId).then(cards => {
-            setAvailableCards(cards);
+            setAcesCards(cards.availableCards.filter(card => card.image));
+            setWildCards(cards.availableCards.filter(card => !card.image));
         })
-        return () => setAvailableCards([]);
-    }, [wallet, gameId, rankings]);
-
-    // Extract aces cards from available cards array
-    useEffect(() => {
-        if (availableCards)
-            setAcesCards(availableCards.filter(card => card.image));
-    }, [availableCards, setAcesCards]);
-
-    // Extract wild cards from available cards array
-    useEffect(() => {
-        if (availableCards)
-            setWildCards(availableCards.filter(card => !card.image));
-    }, [availableCards, setWildCards]);
+    }, [wallet, gameId, rankings, setAcesCards, setWildCards]);
 
     // Get best hand from rankings
     useEffect(() => {
@@ -68,13 +55,13 @@ const Dashboard = (props) => {
         setPlayAgainButton("Thinking...");
         playGame(wallet, gameId).then(entry => {
             if (entry && entry !== {}) {
-                setBestHand(entry); 
                 if (wallet) {
                     getGameRankings(gameId).then(entries => {
                         setRankings(entries);
                         if (entries) {
                             let r = entries.map(entry => entry.user).indexOf(wallet);
                             setRank(r === -1 ? "?" : r + 1);
+                            if (r !== -1) setBestHand(entries[r].hand); 
                         }
                     })
                 }

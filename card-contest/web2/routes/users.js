@@ -81,7 +81,7 @@ usersRoutes.route("/users/history/:user-:gameId").get( (req, res) => {
                     if (result.gameHistory[i].gameId === req.params.gameId) {
                         entries.push(result.gameHistory[i]);
                     }
-
+                console.log(entries);
                 res.json(entries.sort((a,b) => fiveCardRank(a.hand,b.hand))[0]);
 
             }
@@ -101,7 +101,8 @@ usersRoutes.route("/users/cards/:user-:gameId").get( (req, res) => {
         .collection("games")
         .findOne(query, (err, result) => {
             if (err) throw err;
-            let wildCards = result?.wildCards ? result.wildCards : [];
+
+            let wildCards = result.entries.filter(entry => entry.user === req.params.user).sort((a, b) => fiveCardRank(a.hand, b.hand))[0].wildCards || [];
             getAcesTokens(req.params.user)
                 .then( response => {
                     res.json({ cards: getGameCards(response, wildCards) })
