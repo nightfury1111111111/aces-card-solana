@@ -17,8 +17,8 @@ function getGameCards(tokens, wildCards) {
             .map( token => {
                 let suit, face;
                 for (let i = 0; i < token.attributes.length; i++) {
-                    if (token.attributes[i].trait_type === "Suit") suit = token.attributes[i].value;
-                    if (token.attributes[i].trait_type === "Value") face = token.attributes[i].value;
+                    if (token.attributes[i].trait_type === "Suit") suit = token.attributes[i].value.trim();
+                    if (token.attributes[i].trait_type === "Value") face = token.attributes[i].value.trim();
                 }
                 return { mint: token.mint, image: token.image, suit: suit, face: face };
     }).concat(wildCards);

@@ -40,7 +40,7 @@ const Home = (props) => {
                         <p>Or</p>
                         <hr/>
                     </div>
-                    <a href="https://www.magiceden.io">BUY</a>
+                    <a href="https://www.magiceden.io/marketplace/the_aces_nft">BUY</a>
                     <p>In Order to Play the Game You Must Hold At Least 1 Aces NFT</p>
                     <p>This version is in <b>Beta Mode</b></p>
                 </div>
