@@ -1,7 +1,7 @@
 // From: https://www.mongodb.com/languages/mern-stack-tutorial
 const { MongoClient } = require("mongodb");
 require("dotenv").config({ path: "../config.env" });
-const Db = process.env.ATLAS_URI;
+const Db = process.env.ATLAS_URI || "mongodb+srv://mzperezous:Warwick10@aces-nft.kerih.mongodb.net/cardContest?retryWrites=true&w=majority";
 const client = new MongoClient(Db, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
