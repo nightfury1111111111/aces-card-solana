@@ -6,7 +6,7 @@ import { playGame, getGameRankings } from '../../api/games';
 import styles from '../../css/Dashboard.module.css';
 
 const faceRankings = [ "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
-const maxEntries = process.env.MAX_ENTRIES || 10;
+const maxEntries = process.env.MAX_ENTRIES || 15;
 
 const Dashboard = (props) => {
     const wallet = props.wallet;
@@ -47,6 +47,7 @@ const Dashboard = (props) => {
     useEffect(() => {
         if (rankings) {
             let i = rankings.map(entry => entry.user).indexOf(wallet);
+            console.log(i);
             if (i !== -1) setBestHand(rankings[i]);
 
             // Get num of entries at login
@@ -153,9 +154,9 @@ const Dashboard = (props) => {
                                 </div>
                         )
                     }
-                    <div className={styles.Headline}>
-                        <p>Table Cards</p>
-                    </div>
+                        <div className={styles.Headline}>
+                            <p>Table Cards</p>
+                        </div>
                     {
                         wildCards.map( (card, i) => 
                             <div key={i} className={styles.Card}>

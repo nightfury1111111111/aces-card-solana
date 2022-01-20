@@ -52,7 +52,7 @@ usersRoutes.route("/users/history/:user").get( (req, res) => {
                     let gameIds = games.map(entry => entry.gameId);
                     let ranks = games.map(entry => 
                         entry.entries
-                            .sort((a,b) => fiveCardRank(b,a))
+                            .sort((a,b) => fiveCardRank(a.hand,b.hand))
                             .map(e => e.user).indexOf(req.params.user) + 1
                     );
                     let totals = games.map(entry => entry.entries.length);
@@ -82,7 +82,7 @@ usersRoutes.route("/users/history/:user-:gameId").get( (req, res) => {
                         entries.push(result.gameHistory[i]);
                     }
 
-                res.json(entries.sort((a,b) => fiveCardRank(b,a))[0]);
+                res.json(entries.sort((a,b) => fiveCardRank(a.hand,b.hand))[0]);
 
             }
             else {

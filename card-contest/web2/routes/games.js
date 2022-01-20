@@ -48,7 +48,7 @@ gamesRoutes.route("/games/:gameId").get( (req, res) => {
       .findOne(query, (err, result) => {
         if (err) throw err;
         if (result)
-            res.json({ entries: result.entries.sort((a,b) => fiveCardRank(b,a)) });
+            res.json({ entries: result.entries.sort((a,b) => fiveCardRank(a.hand,b.hand)) });
         else
             res.json({entries: []});
     });
