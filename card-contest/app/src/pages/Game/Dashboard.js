@@ -34,7 +34,6 @@ const Dashboard = (props) => {
     useEffect(() => {
         if (rankings) {
             let i = rankings.map(entry => entry.user).indexOf(wallet);
-            console.log(i);
             if (i !== -1) setBestHand(rankings[i]);
 
             // Get num of entries at login
