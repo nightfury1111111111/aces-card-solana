@@ -101,7 +101,7 @@ usersRoutes.route("/users/cards/:user-:gameId").get( (req, res) => {
         .findOne(query, (err, result) => {
             if (err) throw err;
 
-            let wildCards = result.entries.filter(entry => entry.user === req.params.user).sort((a, b) => fiveCardRank(a.hand, b.hand))[0].wildCards || [];
+            let wildCards = result?.entries.filter(entry => entry.user === req.params.user).sort((a, b) => fiveCardRank(a.hand, b.hand))[0].wildCards || [];
             getAcesTokens(req.params.user)
                 .then( response => {
                     res.json({ cards: getGameCards(response, wildCards) })
