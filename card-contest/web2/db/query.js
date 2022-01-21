@@ -6,6 +6,8 @@ const { getParsedNftAccountsByOwner } = require("@nfteyez/sol-rayz");
 const collectionSymbol = process.env.COLLECTION_SYMBOL || "ACES";
 const collectionDscr = process.env.COLLECTION_DSCR || "The Aces NFT";
 
+const faceRankings = [ "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
+
 async function getAcesTokens(pubkey) {
     const endpoint = "https://api.mainnet-beta.solana.com/";
     //const endpoint = "https://api.devnet.solana.com/";
@@ -35,7 +37,13 @@ async function getAcesTokens(pubkey) {
             }
         });
 
-    return Promise.all(metadataList).then( tokens => tokens.filter(token => token.mint) )
+    return Promise.all(metadataList).then( tokens => {
+        let aces = tokens
+            .filter(token => token.mint)
+            .sort((a,b) => (faceRankings.indexOf(b.face) - faceRankings.indexOf(a.face)));
+        if (aces.length > 5) return aces.slice(0,6);
+        else return aces;
+    });
 }
 
 exports.getAcesTokens = getAcesTokens;
