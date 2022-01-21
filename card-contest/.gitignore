@@ -4,3 +4,4 @@
 target
 **/*.rs.bk
 
+web2/db/.env
