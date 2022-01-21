@@ -1,10 +1,10 @@
-require("dotenv").config({ path: "../config.env" });
+require("dotenv").config();
 const axios = require('axios');
 const { Connection } = require('@solana/web3.js');
 const { getParsedNftAccountsByOwner } = require("@nfteyez/sol-rayz");
 
-const collectionSymbol = process.env.COLLECTION_SYMBOL;
-const collectionDscr = process.env.COLLECTION_DSCR;
+const collectionSymbol = process.env.COLLECTION_SYMBOL || "ACES";
+const collectionDscr = process.env.COLLECTION_DSCR || "The Aces NFT";
 
 async function getAcesTokens(pubkey) {
     const endpoint = "https://api.mainnet-beta.solana.com/";

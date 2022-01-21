@@ -32,7 +32,6 @@ function rankHand(tokens, gameType, wildCards) {
             let hands = kCombinations(allCards, 5).map(hand => ({ hand: hand }));
 
             hands.sort( (a,b) => fiveCardRank(a.hand, b.hand) );
-            console.log(hands[0]);
             let solvedHand = Hand.solve(hands[0].hand.map(card => `${card.face === "10" ? "T" : card.face[0].toUpperCase()}${card.suit[0]}`));
 
             return { hand: hands[0].hand, type: solvedHand.descr, score: solvedHand.rank };

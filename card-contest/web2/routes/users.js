@@ -81,7 +81,6 @@ usersRoutes.route("/users/history/:user-:gameId").get( (req, res) => {
                     if (result.gameHistory[i].gameId === req.params.gameId) {
                         entries.push(result.gameHistory[i]);
                     }
-                console.log(entries);
                 res.json(entries.sort((a,b) => fiveCardRank(a.hand,b.hand))[0]);
 
             }

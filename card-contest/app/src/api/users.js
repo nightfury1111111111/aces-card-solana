@@ -17,6 +17,5 @@ export const getGameEntry = async (pubkey, gameId) => {
 
 export const getAvailableCards = async (pubkey, gameId) => {
     let res = await axios.get(`/users/cards/${pubkey}-${gameId}`);
-    console.log(res);
     return { availableCards: res.data.cards };
 }
