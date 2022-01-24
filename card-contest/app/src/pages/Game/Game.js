@@ -12,7 +12,8 @@ import styles from '../../css/Game.module.css';
 
 const Game = (props) => {
     const wallet = props.wallet;
-    const gameType = "5card";
+    const gameType = String(new Date().getDate()).padStart(2, '0') in [ "24", "25", "26", "27", "28", "29", "30" ] ? "deuceswild" : "5card";
+    //const gameType = "deuceswild";
     const gameId = String(new Date().getDate()).padStart(2,'0') + String(new Date().getMonth()).padStart(2,'0') + String(new Date().getFullYear()) + gameType;
     //const gameId = "testtest" + gameType;
     const [ isProfileOpen, setIsProfileOpen ] = useState(false);
@@ -54,7 +55,7 @@ const Game = (props) => {
                     />
                 </div>
                 <div className={styles.Rankings}>
-                    <Leaderboard wallet={wallet.publicKey.toString()} rankings={rankings} rank={rank}/>
+                    <Leaderboard wallet={wallet.publicKey.toString()} gameId={gameId} rankings={rankings} rank={rank}/>
                 </div>
             </div>
             <Profile wallet={wallet.publicKey.toString()} isProfileOpen={isProfileOpen} setIsProfileOpen={setIsProfileOpen}/>

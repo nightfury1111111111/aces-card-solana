@@ -6,6 +6,8 @@ const Leaderboard = (props) => {
     const rankings = props.rankings;
     const rank = props.rank;
     const wallet = props.wallet;
+    const gameId = props.gameId;
+    const gameType = gameId.substring(8) === "deuceswild" ? "Deuces Wild" : "Five Card Poker"
 
     // Calculate which hands should be shown (edge cases toward front or back of rankings)
     const [ rankingsToShow, setRankingsToShow ] = useState();
@@ -42,7 +44,7 @@ const Leaderboard = (props) => {
     return (
         <div className={styles.LeaderboardContainer}>
             <div className={styles.Leaderboard}>
-                <h1>Leaderboard</h1>
+                <h1>Leaderboard: {gameType}</h1>
                 <hr/>
                 <ul>
                     

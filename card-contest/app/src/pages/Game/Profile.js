@@ -40,9 +40,9 @@ const Profile = (props) => {
                         {
                             recentGames?.games ? (
                                 recentGames.games.slice(0,5).map( (gameId, i) => 
-                                    gameId !== "testtest5card" ? (
+                                    gameId.substring(0,8) !== "testtest" ? (
                                         <div key={i} className={styles.HistoryEntry}>
-                                            {`${String(Number(gameId.substring(2,4)) + 1).padStart(2, '0')}/${gameId.substring(0,2)}/${gameId.substring(4,8)} - Rank ${recentGames.ranks[i]}/${recentGames.totals[i]}`}
+                                            {`${gameId.substring(8) === "deuceswild" ? "2's Wild " : "5 Card "}${String(Number(gameId.substring(2,4)) + 1).padStart(2, '0')}/${gameId.substring(0,2)} - Rank ${recentGames.ranks[i]}/${recentGames.totals[i]}`}
                                         </div>
                                     ) : (
                                         <></>

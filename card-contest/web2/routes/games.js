@@ -2,7 +2,7 @@
 Games doc ref:
 {
     gameId: {today's date as string} + {game type}
-    gameType: "5card",
+    gameType: "5card"/"deuceswild",
     entries: [
         {
             user: {wallet pubkey},
@@ -18,10 +18,10 @@ const express = require("express");
 const gamesRoutes = express.Router();
 
 const { wildCards } = require('../utils/wildCards');
-const { getBestHandByWallet } = require("../controller/games_controller");
+const { getBestHandByWallet, getBestHandByPool } = require("../controller/games_controller");
 
 const dbo = require("../db/conn");
-const { fiveCardRank } = require("../utils/poker");
+const { rank, deucesWildRank } = require("../utils/poker");
 
 // Get all games (max. 10)
 gamesRoutes.route("/games").get( (_req, res) => {
@@ -47,8 +47,11 @@ gamesRoutes.route("/games/:gameId").get( (req, res) => {
       .collection("games")
       .findOne(query, (err, result) => {
         if (err) throw err;
-        if (result)
-            res.json({ entries: result.entries.sort((a,b) => fiveCardRank(a.hand,b.hand)) });
+
+        let gameType = req.params.gameId.substring(8);
+        if (result) {
+            res.json({ entries: result.entries.sort((a,b) => rank(a.hand,b.hand, gameType === "5card" ? "standard" : gameType)) });
+        }
         else
             res.json({entries: []});
     });
@@ -125,6 +128,13 @@ gamesRoutes.route("/games/play/:gameId").post( (req, res) => {
             if (err) throw err;
             upsert(result, gameQuery, userQuery);
         });
+    
+});
+
+// For local engine testing
+gamesRoutes.route("/games/test_play/:gameId").post( (req, res) => {
+
+    res.json(getBestHandByPool(req.body.cards, req.body.gameType));
     
 });
 

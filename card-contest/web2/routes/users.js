@@ -3,7 +3,7 @@ const usersRoutes = express.Router();
 
 const { getGameCards } = require('../utils/wildCards');
 const { getAcesTokens } = require("../db/query");
-const { fiveCardRank } = require('../utils/poker');
+const { rank } = require('../utils/poker');
 
 const dbo = require("../db/conn");
 
@@ -52,7 +52,7 @@ usersRoutes.route("/users/history/:user").get( (req, res) => {
                     let gameIds = games.map(entry => entry.gameId);
                     let ranks = games.map(entry => 
                         entry.entries
-                            .sort((a,b) => fiveCardRank(a.hand,b.hand))
+                            .sort((a,b) => rank(a.hand,b.hand, entry.gameId.substring(8)))
                             .map(e => e.user).indexOf(req.params.user) + 1
                     );
                     let totals = games.map(entry => entry.entries.length);
@@ -81,7 +81,7 @@ usersRoutes.route("/users/history/:user-:gameId").get( (req, res) => {
                     if (result.gameHistory[i].gameId === req.params.gameId) {
                         entries.push(result.gameHistory[i]);
                     }
-                res.json(entries.sort((a,b) => fiveCardRank(a.hand,b.hand))[0]);
+                res.json(entries.sort((a,b) => rank(a.hand,b.hand, req.params.gameId.substring(8)))[0]);
 
             }
             else {
@@ -101,7 +101,7 @@ usersRoutes.route("/users/cards/:user-:gameId").get( (req, res) => {
         .findOne(query, (err, result) => {
             if (err) throw err;
 
-            let wildCards = result?.entries?.filter(entry => entry.user === req.params.user).sort((a, b) => fiveCardRank(a.hand, b.hand))[0]?.wildCards || [];
+            let wildCards = result?.entries?.filter(entry => entry.user === req.params.user).sort((a, b) => rank(a.hand, b.hand, req.params.gameId.substring(8)))[0]?.wildCards || [];
             getAcesTokens(req.params.user)
                 .then( response => {
                     res.json({ cards: getGameCards(response, wildCards) })
