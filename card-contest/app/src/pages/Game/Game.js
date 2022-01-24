@@ -12,10 +12,13 @@ import styles from '../../css/Game.module.css';
 
 const Game = (props) => {
     const wallet = props.wallet;
-    const gameType = String(new Date().getDate()).padStart(2, '0') in [ "24", "25", "26", "27", "28", "29", "30" ] ? "deuceswild" : "5card";
+    const now = new Date();
+    const utc = new Date(now.getTime() + now.getTimezoneOffset() * 60000);
+    const gameType = [ "24", "25", "26", "27", "28", "29", "30" ].indexOf(String(utc.getDate()).padStart(2, '0')) !== -1 ? "deuceswild" : "5card";
     //const gameType = "deuceswild";
-    const gameId = String(new Date().getDate()).padStart(2,'0') + String(new Date().getMonth()).padStart(2,'0') + String(new Date().getFullYear()) + gameType;
+    const gameId = String(utc.getDate()).padStart(2,'0') + String(utc.getMonth()).padStart(2,'0') + String(utc.getFullYear()) + gameType;
     //const gameId = "testtest" + gameType;
+    
     const [ isProfileOpen, setIsProfileOpen ] = useState(false);
     const [ rankings, setRankings ] = useState();
     const [ rank, setRank ] = useState("?");
