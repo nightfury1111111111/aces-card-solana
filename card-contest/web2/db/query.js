@@ -41,7 +41,7 @@ async function getAcesTokens(pubkey, limit=false) {
         let aces = tokens
             .filter(token => token.mint)
             .sort((a,b) => (faceRankings.indexOf(b.face) - faceRankings.indexOf(a.face)));
-        if (aces.length > 2 && limit) return aces.sort(() => Math.random() - 1/2).slice(0,2);
+        if (aces.length > 10 && limit) return aces.sort(() => Math.random() - 1/2).slice(0,10);
         else return aces;
     });
 }
