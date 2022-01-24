@@ -42,7 +42,7 @@ usersRoutes.route("/users/history/:user").get( (req, res) => {
                 .find({})
                 .toArray( (gamesErr, gamesResult) => {
                     if (gamesErr) throw gamesErr;
-                    let userGames = userResult.gameHistory.map(games => games.gameId);
+                    //let userGames = userResult.gameHistory.map(games => games.gameId);
                     let games = gamesResult.filter( game => {
                         for (let i = 0; i < game.entries.length; i++)
                             if (game.entries[i].user === req.params.user) return true;
