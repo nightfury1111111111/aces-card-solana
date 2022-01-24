@@ -46,7 +46,7 @@
 
 .Play button:disabled {
     border: 2px solid gray;
-    cursor: none;
+    cursor: auto;
 }
 
 .Play p {
