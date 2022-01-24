@@ -29,8 +29,8 @@ const App = () => {
   const utc = new Date(now.getTime() + now.getTimezoneOffset() * 60000);
   const gameType = [ "24", "25", "26", "27", "28", "29", "30" ].indexOf(String(utc.getDate()).padStart(2, '0')) !== -1 ? "deuceswild" : "5card";
   //const gameType = "deuceswild";
-  const gameId = String(utc.getDate()).padStart(2,'0') + String(utc.getMonth()).padStart(2,'0') + String(utc.getFullYear()) + gameType;
-  //const gameId = "testtest" + gameType;
+  //const gameId = String(utc.getDate()).padStart(2,'0') + String(utc.getMonth()).padStart(2,'0') + String(utc.getFullYear()) + gameType;
+  const gameId = "thisisit" + gameType;
 
   const [ rankings, setRankings ] = useState(false);
   const [ reloadRankings, setReloadRankings ] = useState(0);

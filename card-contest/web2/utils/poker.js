@@ -2,7 +2,7 @@ const { Hand } = require('pokersolver');
 
 // Callback function to sort hands of the type
 // { hand: [{mint, suit, face}], type: String, score: int }
-const faceOrder = [ "2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K", "A" ];
+const faceOrder = [ "0", "2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K", "A" ];
 
 // if a better than b, return -1
 
@@ -12,7 +12,7 @@ const rank = (a, b) => {
     let handB = Hand.solve(b.map(card => `${card.face === "10" ? "T" : card.face[0].toUpperCase()}${card.suit[0]}`), gameType);
 
     // Five of a kind check
-    let facesA = [...new Set(a.map(card => card.face))];
+    let facesA = [...new Set(a.map(card => card.face).sort((a,b) => faceOrder.indexOf(b) - faceOrder.indexOf(a)))];
     let facesB = [...new Set(b.map(card => card.face))];
 
     // If they're both 5 of a kind, check face value. Consider non-wild 5 of a kind first.
@@ -27,8 +27,6 @@ const rank = (a, b) => {
     } 
     // Wild 5 of a kinds
     else if (facesA.length === 2 && facesA.indexOf("0") !== -1 && facesB.length === 2 && facesB.indexOf("0") !== -1){
-        facesA.sort((a,b) => faceOrder.indexOf(b.face[0]) - faceOrder.indexOf(a.face[0]));
-        facesB.sort((a,b) => faceOrder.indexOf(b.face[0]) - faceOrder.indexOf(a.face[0]));
         return faceOrder.indexOf(facesB[0]) - faceOrder.indexOf(facesA[0]);
     }
     else if (facesA.length === 2 && facesA.indexOf("0") !== -1) {
