@@ -44,6 +44,7 @@ function rankHand(tokens, gameType, wildCards) {
 
     // Get best hand based on game type
     hands.sort( (a,b) => rank(a.hand, b.hand) );
+    console.log(hands.map(hand => hand.hand))
     let solvedHand = Hand.solve(hands[0].hand.map(card => `${card.face === "10" ? "T" : card.face[0].toUpperCase()}${card.suit[0]}`));
 
     // Five of a kind check

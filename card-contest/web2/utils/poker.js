@@ -15,12 +15,28 @@ const rank = (a, b) => {
     let facesA = [...new Set(a.map(card => card.face))];
     let facesB = [...new Set(b.map(card => card.face))];
 
-    // If they're both 5 of a kind, check face value
-    if ((facesA.length === 1 || (facesA.length === 2 && facesA.indexOf("0") !== -1)) && (facesB.length === 1 || (facesB.length === 2 && facesB.indexOf("0") !== -1))) {
+    // If they're both 5 of a kind, check face value. Consider non-wild 5 of a kind first.
+    if (facesA.length === 1 && facesB.length === 1) {
         return faceOrder.indexOf(facesB[0]) - faceOrder.indexOf(facesA[0]);
     }
-    else if (facesA.length === 1 || (facesA.length === 2 && facesA.indexOf("0") !== -1)) return -1;
-    else if (facesA.length === 1 || (facesA.length === 2 && facesA.indexOf("0") !== -1)) return 1;
+    else if (facesA.length === 1) {
+        return -1;
+    }
+    else if (facesB.length === 1) {
+        return 1;
+    } 
+    // Wild 5 of a kinds
+    else if (facesA.length === 2 && facesA.indexOf("0") !== -1 && facesB.length === 2 && facesB.indexOf("0") !== -1){
+        facesA.sort((a,b) => faceOrder.indexOf(b.face[0]) - faceOrder.indexOf(a.face[0]));
+        facesB.sort((a,b) => faceOrder.indexOf(b.face[0]) - faceOrder.indexOf(a.face[0]));
+        return faceOrder.indexOf(facesB[0]) - faceOrder.indexOf(facesA[0]);
+    }
+    else if (facesA.length === 2 && facesA.indexOf("0") !== -1) {
+        return -1;
+    }
+    else if (facesB.length === 2 && facesB.indexOf("0") !== -1) {
+        return 1;
+    } 
 
     return handA.compare(handB);
 }
