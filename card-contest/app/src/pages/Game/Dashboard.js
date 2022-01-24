@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 
-import { getAvailableCards } from '../../api/users';
 import { playGame, getGameRankings } from '../../api/games';
 
 import styles from '../../css/Dashboard.module.css';
@@ -20,7 +19,7 @@ const Dashboard = (props) => {
     const [ acesCards, setAcesCards ] = useState([]);
     const [ wildCards, setWildCards ] = useState([]);
     const [ bestHand, setBestHand ] = useState();
-    const [ entries, setEntries ] = useState();
+    const [ entries, setEntries ] = useState(20);
 
     // Get available cards
     useEffect(() => {
@@ -46,6 +45,7 @@ const Dashboard = (props) => {
             }
             setEntries(count);
         }
+
     }, [wallet, rankings, setEntries]);
 
     const [ playAgainButton, setPlayAgainButton ] = useState("PLAY AGAIN");
@@ -82,7 +82,7 @@ const Dashboard = (props) => {
                             !bestHand.handType ? (
                                 <>
                                     <p>Need at least 1 Aces NFT to play the card contest.</p>
-                                    <button onClick={() => createEntry()}>PLAY</button>
+                                    <button onClick={() => createEntry()} disabled={rankings === false}>PLAY</button>
                                     <p>{rankings ? `Rank: ${rank}/${rankings.length}` : `Rank`}</p>
                                 </>
                             ) : (
@@ -131,6 +131,16 @@ const Dashboard = (props) => {
                 <div className={styles.Cards}>
                     <div className={styles.CardGrid}>
                         <div className={styles.Headline}>
+                            <p>Table Cards</p>
+                        </div>
+                    {
+                        wildCards.map( (card, i) => 
+                            <div key={i} className={styles.Card}>
+                                <img src={`/images/wildCards/${card.face}${card.suit}.png`} alt={card.face + " of " + card.suit}/>
+                            </div>
+                        )
+                    }
+                        <div className={styles.Headline}>
                             <p>ACES</p>
                         </div>
                     {
@@ -143,16 +153,7 @@ const Dashboard = (props) => {
                             <></>
                             )
                     }
-                        <div className={styles.Headline}>
-                            <p>Table Cards</p>
-                        </div>
-                    {
-                        wildCards.map( (card, i) => 
-                            <div key={i} className={styles.Card}>
-                                <img src={`/images/wildCards/${card.face}${card.suit}.png`} alt={card.face + " of " + card.suit}/>
-                            </div>
-                        )
-                    }
+
                     </div>
                 </div>
             </div>

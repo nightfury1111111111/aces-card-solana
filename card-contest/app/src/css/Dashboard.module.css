@@ -44,6 +44,11 @@
     cursor: pointer;
 }
 
+.Play button:disabled {
+    border: 2px solid gray;
+    cursor: default;
+}
+
 .Play p {
     font-size: 0.8em;
     margin: 0;

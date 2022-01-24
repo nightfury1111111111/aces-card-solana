@@ -12,33 +12,27 @@ import styles from '../../css/Game.module.css';
 
 const Game = (props) => {
     const wallet = props.wallet;
-    const now = new Date();
-    const utc = new Date(now.getTime() + now.getTimezoneOffset() * 60000);
-    const gameType = [ "24", "25", "26", "27", "28", "29", "30" ].indexOf(String(utc.getDate()).padStart(2, '0')) !== -1 ? "deuceswild" : "5card";
-    //const gameType = "deuceswild";
-    const gameId = String(utc.getDate()).padStart(2,'0') + String(utc.getMonth()).padStart(2,'0') + String(utc.getFullYear()) + gameType;
-    //const gameId = "testtest" + gameType;
+    const gameId = props.gameId;
+    const rankings = props.rankings;
+    const setRankings = props.setRankings;
+    const reloadRankings = props.reloadRankings;
+    const setReloadRankings = props.setReloadRankings;
 
     const [ isProfileOpen, setIsProfileOpen ] = useState(false);
-    const [ rankings, setRankings ] = useState();
     const [ rank, setRank ] = useState("?");
-    const [ reloadRankings, setReloadRankings ] = useState(0);
 
     // Get current game rankings and find rank
     useEffect(() => {
         if (wallet?.publicKey) {
-            getGameRankings(gameId).then(entries => {
-                setRankings(entries);
-                if (entries) {
-                    let r = entries.map(entry => entry.user).indexOf(wallet.publicKey.toString());
-                    setRank(r === -1 ? "?" : r + 1);
-                }
-                else {
-                    setRank("?");
-                }
-            })
+            if (rankings) {
+                let r = rankings.map(entry => entry.user).indexOf(wallet.publicKey.toString());
+                setRank(r === -1 ? "?" : r + 1);
+            }
+            else {
+                setRank("?");
+            }
         }
-    }, [wallet, gameId, reloadRankings, setRank, setRankings]);
+    }, [wallet, gameId, rankings, setRank]);
 
     return wallet.publicKey ? (
         <div className={styles.Game}>

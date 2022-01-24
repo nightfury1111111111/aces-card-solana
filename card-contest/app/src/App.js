@@ -1,5 +1,5 @@
 // React, react-router, and react-bootstrap imports
-import React, { useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Route, Routes, BrowserRouter } from 'react-router-dom';
 
 // Solana-specific imports
@@ -16,6 +16,8 @@ import {
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
 import { ConnectionProvider, WalletProvider, useWallet } from '@solana/wallet-adapter-react';
 
+import { getGameRankings } from './api/games';
+
 // Pages
 import Home from './pages/Home/Home';
 import Game from './pages/Game/Game';
@@ -23,11 +25,32 @@ import Game from './pages/Game/Game';
 const App = () => {
   const wallet = useWallet();
 
+  const now = new Date();
+  const utc = new Date(now.getTime() + now.getTimezoneOffset() * 60000);
+  const gameType = [ "24", "25", "26", "27", "28", "29", "30" ].indexOf(String(utc.getDate()).padStart(2, '0')) !== -1 ? "deuceswild" : "5card";
+  //const gameType = "deuceswild";
+  const gameId = String(utc.getDate()).padStart(2,'0') + String(utc.getMonth()).padStart(2,'0') + String(utc.getFullYear()) + gameType;
+  //const gameId = "testtest" + gameType;
+
+  const [ rankings, setRankings ] = useState(false);
+  const [ reloadRankings, setReloadRankings ] = useState(0);
+
+  // Get current game rankings
+  useEffect(() => {
+    getGameRankings(gameId).then(entries => {
+        if (entries)
+          setRankings(entries);
+        else setRankings([]);
+    })
+  }, [wallet, gameId, reloadRankings, setRankings]);
+
   return (
     <>
       <Routes>
         <Route path="/" element={<Home wallet={wallet}/>}/>
-        <Route path="/play" element={<Game wallet={wallet}/>}/>
+        <Route path="/play" 
+          element={<Game wallet={wallet} gameId={gameId} rankings={rankings} setRankings={setRankings} reloadRankings={reloadRankings} setReloadRankings={setReloadRankings}/>}
+        />
       </Routes>
     </>
   );
