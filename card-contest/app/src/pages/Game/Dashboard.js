@@ -24,11 +24,12 @@ const Dashboard = (props) => {
 
     // Get available cards
     useEffect(() => {
-        getAvailableCards(wallet, gameId).then(cards => {
-            setAcesCards(cards.availableCards.filter(card => card.image));
-            setWildCards(cards.availableCards.filter(card => !card.image));
-        })
-    }, [wallet, gameId, rankings, setAcesCards, setWildCards]);
+        if (bestHand && reloadRankings === 0) {
+            setAcesCards(bestHand.aces ? bestHand.aces : []);
+            setWildCards(bestHand.wildCards);
+        }
+
+    }, [wallet, gameId, bestHand, reloadRankings, setAcesCards, setWildCards]);
 
     // Get best hand from rankings
     useEffect(() => {
@@ -54,13 +55,15 @@ const Dashboard = (props) => {
         setPlayAgainButton("Thinking...");
         playGame(wallet, gameId).then(entry => {
             if (entry && entry !== {}) {
+                setAcesCards(entry.aces);
+                setWildCards(entry.wildCards);
                 if (wallet) {
                     getGameRankings(gameId).then(entries => {
                         setRankings(entries);
                         if (entries) {
-                            let r = entries.map(entry => entry.user).indexOf(wallet);
+                            let r = entries.map(e => e.user).indexOf(wallet);
                             setRank(r === -1 ? "?" : r + 1);
-                            if (r !== -1) setBestHand(entries[r].hand); 
+                            if (r !== -1) setBestHand(entries[r]); 
                         }
                     })
                 }
@@ -131,14 +134,14 @@ const Dashboard = (props) => {
                             <p>ACES</p>
                         </div>
                     {
-                        acesCards
-                            .sort((a, b) => 
-                                (faceRankings.indexOf(b.face.length === 1 ? b.face : b.face[0].toUpperCase()) - faceRankings.indexOf(a.face.length === 1 ? a.face : a.face[0].toUpperCase())))
+                        (acesCards && acesCards.length > 0) ? (acesCards
                             .map( (card, i) => 
                                 <div key={i} className={styles.Card}>
                                     <img src={card.image} alt={card.face + " of " + card.suit}/>
                                 </div>
-                        )
+                        )) : (
+                            <></>
+                            )
                     }
                         <div className={styles.Headline}>
                             <p>Table Cards</p>

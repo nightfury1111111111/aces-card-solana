@@ -8,7 +8,7 @@ const collectionDscr = process.env.COLLECTION_DSCR || "The Aces NFT";
 
 const faceRankings = [ "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
 
-async function getAcesTokens(pubkey) {
+async function getAcesTokens(pubkey, limit=false) {
     const endpoint = "https://api.mainnet-beta.solana.com/";
     //const endpoint = "https://api.devnet.solana.com/";
     const connection = new Connection(endpoint);
@@ -41,7 +41,7 @@ async function getAcesTokens(pubkey) {
         let aces = tokens
             .filter(token => token.mint)
             .sort((a,b) => (faceRankings.indexOf(b.face) - faceRankings.indexOf(a.face)));
-        if (aces.length > 10) return aces.slice(0,10);
+        if (aces.length > 2 && limit) return aces.sort(() => Math.random() - 1/2).slice(0,2);
         else return aces;
     });
 }

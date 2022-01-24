@@ -53,7 +53,7 @@ function rankHand(tokens, gameType, wildCards) {
         solvedHand.rank = 10;
     }
 
-    return { hand: hands[0].hand, type: solvedHand.descr, score: solvedHand.rank };
+    return { hand: hands[0].hand, type: solvedHand.descr, score: solvedHand.rank, aces: getGameCards(tokens,[]) };
 
 }
 
@@ -62,7 +62,7 @@ function rankHand(tokens, gameType, wildCards) {
  */
 
 async function getBestHandByWallet(pubkey, gameType, wildCards) {
-    let acesTokens = await getAcesTokens(pubkey);
+    let acesTokens = await getAcesTokens(pubkey, true);
     if (acesTokens.length < 1) { console.log("Need 1 Aces NFTs to play."); return {};}
     let bestHand = rankHand(acesTokens, gameType, wildCards);
     return bestHand;

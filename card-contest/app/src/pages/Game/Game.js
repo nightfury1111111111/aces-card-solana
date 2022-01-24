@@ -18,7 +18,7 @@ const Game = (props) => {
     //const gameType = "deuceswild";
     const gameId = String(utc.getDate()).padStart(2,'0') + String(utc.getMonth()).padStart(2,'0') + String(utc.getFullYear()) + gameType;
     //const gameId = "testtest" + gameType;
-    
+
     const [ isProfileOpen, setIsProfileOpen ] = useState(false);
     const [ rankings, setRankings ] = useState();
     const [ rank, setRank ] = useState("?");

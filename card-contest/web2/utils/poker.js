@@ -16,11 +16,11 @@ const rank = (a, b) => {
     let facesB = [...new Set(b.map(card => card.face))];
 
     // If they're both 5 of a kind, check face value
-    if (facesA.length === 1 && facesB.length === 1) {
+    if ((facesA.length === 1 || (facesA.length === 2 && facesA.indexOf("0") !== -1)) && (facesB.length === 1 || (facesB.length === 2 && facesB.indexOf("0") !== -1))) {
         return faceOrder.indexOf(facesB[0]) - faceOrder.indexOf(facesA[0]);
     }
-    else if (facesA.length === 1) return -1;
-    else if (facesB.length === 1) return 1;
+    else if (facesA.length === 1 || (facesA.length === 2 && facesA.indexOf("0") !== -1)) return -1;
+    else if (facesA.length === 1 || (facesA.length === 2 && facesA.indexOf("0") !== -1)) return 1;
 
     return handA.compare(handB);
 }

@@ -102,7 +102,7 @@ usersRoutes.route("/users/cards/:user-:gameId").get( (req, res) => {
             if (err) throw err;
 
             let wildCards = result?.entries?.filter(entry => entry.user === req.params.user).sort((a, b) => rank(a.hand, b.hand, req.params.gameId.substring(8)))[0]?.wildCards || [];
-            getAcesTokens(req.params.user)
+            getAcesTokens(req.params.user, false)
                 .then( response => {
                     res.json({ cards: getGameCards(response, wildCards) })
                 });
