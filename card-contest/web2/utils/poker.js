@@ -12,12 +12,17 @@ const rank = (a, b) => {
     let handB = Hand.solve(b.map(card => `${card.face === "10" ? "T" : card.face[0].toUpperCase()}${card.suit[0]}`), gameType);
 
     // Five of a kind check
-    let facesA = [...new Set(a.map(card => card.face).sort((a,b) => faceOrder.indexOf(b) - faceOrder.indexOf(a)))];
-    let facesB = [...new Set(b.map(card => card.face))];
+    let facesA = [...new Set(a.map(card => card.face).sort((a,b) => faceOrder.indexOf(b[0].toUpperCase()) - faceOrder.indexOf(a[0].toUpperCase())))];
+    if (facesA.length === 2 && facesA.indexOf()) console.log(facesA);
+    let facesB = [...new Set(b.map(card => card.face).sort((a,b) => faceOrder.indexOf(b[0].toUpperCase()) - faceOrder.indexOf(a[0].toUpperCase())))];
 
     // If they're both 5 of a kind, check face value. Consider non-wild 5 of a kind first.
     if (facesA.length === 1 && facesB.length === 1) {
-        return faceOrder.indexOf(facesB[0]) - faceOrder.indexOf(facesA[0]);
+        // 5 of a kind aces with wilds beats everything but 5 of a kind aces
+        if (facesA[0] === "0" && facesB[0] !== "0" && facesB[0][0].toUpperCase() !== "A") return -1;
+        else if (facesB[0] === "0" && facesA[0] !== "0" && facesA[0][0].toUpperCase() !== "A") return 1;
+        
+        return faceOrder.indexOf(facesB[0][0].toUpperCase()) - faceOrder.indexOf(facesA[0][0].toUpperCase());
     }
     else if (facesA.length === 1) {
         return -1;
@@ -27,7 +32,7 @@ const rank = (a, b) => {
     } 
     // Wild 5 of a kinds
     else if (facesA.length === 2 && facesA.indexOf("0") !== -1 && facesB.length === 2 && facesB.indexOf("0") !== -1){
-        return faceOrder.indexOf(facesB[0]) - faceOrder.indexOf(facesA[0]);
+        return faceOrder.indexOf(facesB[0][0].toUpperCase()) - faceOrder.indexOf(facesA[0][0].toUpperCase());
     }
     else if (facesA.length === 2 && facesA.indexOf("0") !== -1) {
         return -1;

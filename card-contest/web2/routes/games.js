@@ -48,9 +48,8 @@ gamesRoutes.route("/games/:gameId").get( (req, res) => {
       .findOne(query, (err, result) => {
         if (err) throw err;
 
-        let gameType = req.params.gameId.substring(8);
         if (result) {
-            res.json({ entries: result.entries.sort((a,b) => rank(a.hand,b.hand, gameType === "5card" ? "standard" : gameType)) });
+            res.json({ entries: result.entries.sort((a,b) => rank(a.hand,b.hand)) });
         }
         else
             res.json({entries: []});
