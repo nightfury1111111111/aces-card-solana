@@ -13,7 +13,6 @@ const rank = (a, b) => {
 
     // Five of a kind check
     let facesA = [...new Set(a.map(card => card.face).sort((a,b) => faceOrder.indexOf(b[0].toUpperCase()) - faceOrder.indexOf(a[0].toUpperCase())))];
-    if (facesA.length === 2 && facesA.indexOf()) console.log(facesA);
     let facesB = [...new Set(b.map(card => card.face).sort((a,b) => faceOrder.indexOf(b[0].toUpperCase()) - faceOrder.indexOf(a[0].toUpperCase())))];
 
     // If they're both 5 of a kind, check face value. Consider non-wild 5 of a kind first.
