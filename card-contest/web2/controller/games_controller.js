@@ -31,6 +31,9 @@ function rankHand(tokens, gameType, wildCards) {
     if (gameType === "deuceswild") {
         wilds = ["2", "joker"];
     }
+    else if (gameType == "4swild") {
+        wilds = ["4", "joker"];
+    }
     else wilds = ["joker"];
 
     for (let i = 0; i < allCards.length; i++)

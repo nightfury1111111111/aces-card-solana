@@ -27,7 +27,12 @@ const App = () => {
 
   const now = new Date();
   const utc = new Date(now.getTime() + now.getTimezoneOffset() * 60000);
-  const gameType = [ "24", "25", "26", "27", "28", "29", "30" ].indexOf(String(utc.getDate()).padStart(2, '0')) !== -1 ? "deuceswild" : "5card";
+
+  let gameType;
+  if ([ "24", "25", "26", "27", "28", "29", "30" ].indexOf(String(utc.getDate()).padStart(2, '0')) !== -1) gameType = "deuceswild";
+  else if ([ "31", "01", "02", "03", "04", "05", "06" ].indexOf(String(utc.getDate()).padStart(2, '0')) !== -1) gameType = "4swild";
+  else gameType = "5card";
+
   //const gameType = "deuceswild";
   const gameId = String(utc.getDate()).padStart(2,'0') + String(utc.getMonth()).padStart(2,'0') + String(utc.getFullYear()) + gameType;
   //const gameId = "thisisit" + gameType;

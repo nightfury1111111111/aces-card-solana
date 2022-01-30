@@ -7,7 +7,11 @@ const Leaderboard = (props) => {
     const rank = props.rank;
     const wallet = props.wallet;
     const gameId = props.gameId;
-    const gameType = gameId.substring(8) === "deuceswild" ? "Deuces Wild" : "Five Card Poker"
+
+    let gameType;
+    if (gameId.substring(8) === "deuceswild") gameType = "Deuces Wild";
+    else if (gameId.substring(8) === "4swild") gameType = "4's Wild";
+    else gameType = "Five Card Poker";
 
     // Calculate which hands should be shown (edge cases toward front or back of rankings)
     const [ rankingsToShow, setRankingsToShow ] = useState();

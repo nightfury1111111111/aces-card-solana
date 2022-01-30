@@ -5,7 +5,6 @@ import { playGame, getGameRankings } from '../../api/games';
 import styles from '../../css/Dashboard.module.css';
 
 const faceRankings = [ "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
-const maxEntries = process.env.MAX_ENTRIES || 15;
 
 const Dashboard = (props) => {
     const wallet = props.wallet;
@@ -19,7 +18,12 @@ const Dashboard = (props) => {
     const [ acesCards, setAcesCards ] = useState([]);
     const [ wildCards, setWildCards ] = useState([]);
     const [ bestHand, setBestHand ] = useState();
-    const [ entries, setEntries ] = useState(20);
+
+    let maxEntries;
+    console.log(gameId.substring(2,4));
+    if (gameId.substring(0,2) === "30") maxEntries = 15; // Roll over day from deuces to 4's
+    else maxEntries = 20;
+    const [ entries, setEntries ] = useState(maxEntries);
 
     // Get available cards
     useEffect(() => {
