@@ -28,6 +28,12 @@ const Rules = (props) => {
                             Currently, the contest is "Best 5 Card Poker Hand." This game has variants such as 2's Wild and 4's Wild, which
                             provides players with another wild card (on top of the Joker) to increase their chances of drawing low probability hands.        
                         </li>
+                        <li>
+                            By definition, a <b>Table Card</b> is a random card drawn from a normal deck of 52 cards. These cannot be Jokers nor wild.
+                        </li>
+                        <li>
+                            An <b>Aces Card</b> is a card you own by owning an <b>Aces NFT</b>. These can be jokers, wild, and are repeatable (i.e. you can draw 2 Ace of Spades if you own them).
+                        </li>
                     </ul>
                 </div>
             </div>
