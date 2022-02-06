@@ -7,6 +7,7 @@ const Leaderboard = (props) => {
     const rank = props.rank;
     const wallet = props.wallet;
     const gameId = props.gameId;
+    const setIsRulesOpen = props.setIsRulesOpen;
 
     let gameType;
     if (gameId.substring(8) === "deuceswild") gameType = "Deuces Wild";
@@ -65,6 +66,7 @@ const Leaderboard = (props) => {
                     }
                 </ul>
             </div>
+            <button className={styles.RulesButton} onClick={() => setIsRulesOpen(true)}>RULES</button>
         </div>
     )
 }

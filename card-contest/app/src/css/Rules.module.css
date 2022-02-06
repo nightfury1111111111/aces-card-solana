@@ -1,0 +1,68 @@
+.Rules {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width:100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+}
+  
+.RulesMain {
+    position:fixed;
+    background: #76A3C4;
+    width: 80%;
+    height: auto;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+    border-radius: 24px;
+}
+  
+.RulesInner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #293C5E;
+    width: 100%;
+    border-bottom-left-radius: 24px;
+    border-bottom-right-radius: 24px;
+    padding-bottom: 2em;
+    color: #C6D8E5;  
+    font-family: "Montserrat", sans-serif;
+    font-size: 0.67em;
+}
+
+.RulesInner ul {
+    list-style-type: none;
+    text-align: center;
+}
+
+.RulesInner li {
+    margin: 1em 0;
+    line-height: 1.25em;
+}
+  
+.RulesBlock {
+    composes: Rules;
+    display: block;
+}
+  
+.RulesNone {
+    composes: Rules;
+    display: none;
+}
+  
+.Rules button {
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    background-color: #E8EFF7;
+    height: 1em;
+    width: 1em;
+    margin-left: 1em;
+    margin-bottom: 1em;
+}
+
+.Rules button:hover {
+    background-color: red;
+}

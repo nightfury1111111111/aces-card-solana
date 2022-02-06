@@ -20,7 +20,6 @@ const Dashboard = (props) => {
     const [ bestHand, setBestHand ] = useState();
 
     let maxEntries;
-    console.log(gameId.substring(2,4));
     if (gameId.substring(0,2) === "30") maxEntries = 15; // Roll over day from deuces to 4's
     else maxEntries = 20;
     const [ entries, setEntries ] = useState(maxEntries);
@@ -116,7 +115,7 @@ const Dashboard = (props) => {
                                             <p><b>Entries: </b>{`${entries}/${maxEntries}`}</p>
                                         </div>
                                         <button onClick={() => createEntry()} 
-                                            disabled={(entries && entries >= maxEntries) || playAgainButton !== "PLAY AGAIN" ? true : false}>
+                                            disabled={(entries && entries >= maxEntries) || playAgainButton !== "PLAY AGAIN" || acesCards.length === 0 ? true : false}>
                                                 {playAgainButton}
                                         </button>
                                     </div>

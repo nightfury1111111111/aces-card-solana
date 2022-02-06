@@ -5,8 +5,7 @@ import Header from '../../components/Header';
 import Dashboard from './Dashboard';
 import Leaderboard from './Leaderboard';
 import Profile from './Profile';
-
-import { getGameRankings } from '../../api/games';
+import Rules from './Rules';
 
 import styles from '../../css/Game.module.css';
 
@@ -19,6 +18,7 @@ const Game = (props) => {
     const setReloadRankings = props.setReloadRankings;
 
     const [ isProfileOpen, setIsProfileOpen ] = useState(false);
+    const [ isRulesOpen, setIsRulesOpen ] = useState(false);
     const [ rank, setRank ] = useState("?");
 
     // Get current game rankings and find rank
@@ -52,10 +52,11 @@ const Game = (props) => {
                     />
                 </div>
                 <div className={styles.Rankings}>
-                    <Leaderboard wallet={wallet.publicKey.toString()} gameId={gameId} rankings={rankings} rank={rank}/>
+                    <Leaderboard wallet={wallet.publicKey.toString()} gameId={gameId} rankings={rankings} rank={rank} setIsRulesOpen={setIsRulesOpen}/>
                 </div>
             </div>
             <Profile wallet={wallet.publicKey.toString()} isProfileOpen={isProfileOpen} setIsProfileOpen={setIsProfileOpen}/>
+            <Rules isRulesOpen={isRulesOpen} setIsRulesOpen={setIsRulesOpen}/>
         </div>
     ) : (
         <Navigate to="/"/>

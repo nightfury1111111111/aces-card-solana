@@ -159,3 +159,23 @@
 .Stats p:last-of-type {
     margin-top: 0.5em;
 }
+
+.RulesButton {
+    font-family: "Montserrat", sans-serif;
+    font-size: 0.67em;
+    border: 2px solid #186AA5;
+    padding: 0.5em 2em;
+    background: rgb(0,0,0,0);
+    font-weight: 600;
+    cursor: pointer;
+    color: #C6D8E5;  
+}
+
+.Footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+    margin: 0 1em 1em 0;
+}
