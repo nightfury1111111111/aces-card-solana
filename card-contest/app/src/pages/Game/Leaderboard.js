@@ -12,6 +12,7 @@ const Leaderboard = (props) => {
     let gameType;
     if (gameId.substring(8) === "deuceswild") gameType = "Deuces Wild";
     else if (gameId.substring(8) === "4swild") gameType = "4's Wild";
+    else if (gameId.substring(8) === "secretwild") gameType = "Secret Wild"
     else gameType = "Five Card Poker";
 
     // Calculate which hands should be shown (edge cases toward front or back of rankings)
