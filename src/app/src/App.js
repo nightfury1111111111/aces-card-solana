@@ -31,7 +31,8 @@ const App = () => {
   let gameType;
   if ([ "24", "25", "26", "27", "28", "29", "30" ].indexOf(String(utc.getDate()).padStart(2, '0')) !== -1) gameType = "deuceswild";
   else if ([ "31", "01", "02", "03", "04", "05", "06" ].indexOf(String(utc.getDate()).padStart(2, '0')) !== -1) gameType = "4swild";
-  else if (["08", "09", "10", "11", "12", "13", "14"].indexOf(String(utc.getDate()).padStart(2, '0')) !== -1) gameType = "secretwild";
+  else if (["08", "09", "10", "11", "12", "13"].indexOf(String(utc.getDate()).padStart(2, '0')) !== -1) gameType = "secretwild";
+  else if (["14", "15", "16", "17", "18", "19", "20"].indexOf(String(utc.getDate()).padStart(2, '0')) !== -1) gameType = "8swild";
   else gameType = "5card";
 
   //const gameType = "deuceswild";

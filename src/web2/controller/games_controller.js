@@ -31,11 +31,14 @@ function rankHand(tokens, gameType, wildCards) {
     if (gameType === "deuceswild") {
         wilds = ["2", "joker"];
     }
-    else if (gameType == "4swild") {
+    else if (gameType === "4swild") {
         wilds = ["4", "joker"];
     }
     else if (gameType === "secretwild") {
         wilds = ["7", "joker"];
+    }
+    else if (gameType === "8swild") {
+        wilds = ["8", "joker"];
     }
     else wilds = ["joker"];
 

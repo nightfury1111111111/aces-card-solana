@@ -44,7 +44,8 @@ const Profile = (props) => {
                                         <div key={i} className={styles.HistoryEntry}>
                                             {`${gameId.substring(8) === "deuceswild" ? "2's Wild " 
                                                 : (gameId.substring(8) === "4swild" ? "4's Wild" 
-                                                : (gameId.substring(8) === "5card" ? "5 Card " : "Secret Wild"))}
+                                                : (gameId.substring(8) === "5card" ? "5 Card " 
+                                                : (gameId.substring(8) === "8swild" ? "8's Wild" : "Secret Wild")))}
                                                 ${String(Number(gameId.substring(2,4)) + 1).padStart(2, '0')}/${gameId.substring(0,2)} - 
                                                 Rank ${recentGames.ranks[i]}/${recentGames.totals[i]}`}
                                         </div>
