@@ -57,7 +57,7 @@ function rankHand(tokens, gameType, wildCards) {
 
     // Five of a kind check
     let uniqueFaces = [...new Set(hands[0].hand.map(card => card.face))];
-    if (uniqueFaces.length === 1 || (uniqueFaces.length === 2 && uniqueFaces.indexOf("0") !== -1)) {
+    if (uniqueFaces.length === 1 || (uniqueFaces.length === 2 && (uniqueFaces.indexOf("0") !== -1 || uniqueFaces.indexOf("joker") !== -1))) {
         solvedHand.descr = `Five of a kind`;
         solvedHand.rank = 10;
     }
