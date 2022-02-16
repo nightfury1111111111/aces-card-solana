@@ -56,7 +56,7 @@ function rankHand(tokens, gameType, wildCards) {
     let solvedHand = Hand.solve(hands[0].hand.map(card => `${card.face === "10" ? "T" : card.face[0].toUpperCase()}${card.suit[0]}`));
 
     // Five of a kind check
-    let uniqueFaces = [...new Set(hands[0].hand.map(card => card.face))];
+    let uniqueFaces = [...new Set(hands[0].hand.map(card => card.face.toLowerCase().trim()))];
     if (uniqueFaces.length === 1 || (uniqueFaces.length === 2 && (uniqueFaces.indexOf("0") !== -1 || uniqueFaces.indexOf("joker") !== -1))) {
         solvedHand.descr = `Five of a kind`;
         solvedHand.rank = 10;

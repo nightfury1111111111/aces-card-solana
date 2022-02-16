@@ -63,7 +63,7 @@ gamesRoutes.route("/games/play/:gameId").post( (req, res) => {
     let gameQuery = { gameId: req.params.gameId };
     let userQuery = { user: req.body.user };
 
-    let upsert = async (gameEntry, gameQuery, userQuery) => {
+    let upsert = async (_gameEntry, gameQuery, userQuery) => {
         let wildCardList = wildCards(4);
 
         let { hand, type, score, aces } = await getBestHandByWallet(req.body.user, req.body.gameType, wildCardList);
@@ -134,6 +134,7 @@ gamesRoutes.route("/games/play/:gameId").post( (req, res) => {
 
 // For local engine testing
 gamesRoutes.route("/games/test_play/:gameId").post( (req, res) => {
+    console.log("starting")
 
     res.json(getBestHandByPool(req.body.cards, req.body.gameType));
     
