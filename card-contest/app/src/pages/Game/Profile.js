@@ -47,7 +47,7 @@ const Profile = (props) => {
                                                 : (gameId.substring(8) === "secretwild" ? "Secret Wild" 
                                                 : (gameId.substring(8) === "8swild" ? "8's Wild" 
                                                 : (gameId.substring(0,8) === "tourney0" ? "February Card Contest Tourney" : "Classic 5 Card"))))}
-                                                ${String(Number(gameId.substring(2,4)) + 1).padStart(2, '0')}/${gameId.substring(0,2)} - 
+                                                ${gameId.substring(0,7) !== "tourney" ? String(Number(gameId.substring(2,4)) + 1).padStart(2, '0') : ""}/${gameId.substring(0,2)} - 
                                                 Rank ${recentGames.ranks[i]}/${recentGames.totals[i]}`}
                                         </div>
                                     ) : (
