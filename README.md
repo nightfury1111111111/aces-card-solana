@@ -1,4 +1,4 @@
 # Aces NFT
-### Original Author: Michael Perezous
+### Original Author: Matsushima Goro
 
 The Core Repo for the Aces NFT Card Contest
